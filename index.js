@@ -50,6 +50,13 @@ app.use("/", userMenu);
 app.use('/', cartRoute);
 
 
+// Payment Route
+app.get('/payment', checkForAuthAndRedirect('userToken'), (req, res)=>{
+  return res.render('payment',{
+    user: req.user,
+  });
+})
+
 // OrderBill
 app.get('/orderBill', checkForAuthAndRedirect('userToken'), async(req, res)=>{
   if(!req.user){
@@ -63,7 +70,7 @@ app.get('/orderBill', checkForAuthAndRedirect('userToken'), async(req, res)=>{
       ...userItem._doc, 
       amt: userItem.price * userItem.quantity, 
     
-  })).filter(item => item.paymentStatus === 'Pending')
+  })).filter(item => item.status === 'Pending')
 );
   return res.render('orderBill',{
     user: req.user,
@@ -108,7 +115,7 @@ app.post('/markAsDone', async (req, res) => {
 app.get('/admin', async(req, res)=>{
 
   try {
-    const pendingOrders = await Food.find({ 'userItem.paymentStatus': 'Pending' });
+    const pendingOrders = await Food.find({});
 
     const user = await User.find({});
     let chefOrders = pendingOrders.flatMap(order =>
@@ -136,6 +143,16 @@ app.post('/paymentSuccess', async(req, res)=>{
   } catch (err) {
     res.status(500).send(err.message);
   }
+})
+
+// DeleteUser
+app.post('/deleteUser', async(req,res)=>{
+  const {userId} = req.body
+
+  await Food.deleteMany({
+    'userItem.createdBy': userId
+  })
+  res.redirect('/admin')
 })
 
 

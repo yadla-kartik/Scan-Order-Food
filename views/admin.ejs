@@ -103,26 +103,33 @@
     </style>
 </head>
 <body>
+
     <div class="img">
         <img src="/menuImage/logo.png" alt="scan and order">
     </div>
     <% user.forEach(user => { %>
         <div class="card">
             <div class="card-body">
-                <h5>Customer: <%= user.fullname %></h5>
+                <div class="cust-details" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h5>Customer: <%= user.fullname %></h5>
+                    <form action="/deleteUser" method="post">
+                        <input type="hidden" value="<%= user._id %>" name="userId">
+                        <button type="submit"
+                        style="background-color: #242629; color: white; border: 1px solid black; border-radius: 50%;">X</button>                    
+                    </form>
+                </div>
                 <table class="table">
+                    <% let userOrders = chefOrders.filter(order => String(order.createdBy) === String(user._id)); %>
                     <thead>
                         <tr>
                             <th>Item Name</th>
                             <th>Qty</th>
                             <th>Price</th>
                             <th>Payment Status</th>
-                            <th>Action
-                            </th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% let userOrders = chefOrders.filter(order => String(order.createdBy) === String(user._id)); %>
                         <% userOrders.forEach(item => { %>
                             <tr>
                                 <td><%= item.name %></td>
@@ -131,12 +138,14 @@
                                 <td class="<%= item.paymentStatus === 'Pending' ? 'text-warning' : 'text-success' %>">
                                     <%= item.paymentStatus %>
                                 </td>
-                                <td>
-                                    <form method="post" action="/paymentSuccess">
-                                        <input type="hidden" name="itemId" value="<%= item._id %>">
-                                        <button type="submit">Done</button>
-                                    </form>
-                                </td>
+                                <% if (item.paymentStatus === 'Pending') { %>
+                                    <td>
+                                        <form method="post" action="/paymentSuccess">
+                                            <input type="hidden" name="itemId" value="<%= item._id %>">
+                                            <button type="submit">Done</button>
+                                        </form>
+                                    </td>
+                                <% } %>
                             </tr>
                         <% }); %>
                         <tr>

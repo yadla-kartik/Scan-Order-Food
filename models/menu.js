@@ -28,7 +28,8 @@ const food_schema = new mongoose.Schema({
         paymentStatus:{
             type: String,
             default: 'Pending'
-        }
+        },
+        paymentMethod: { type: String, default: "" }   
     }]
 },{timestamps: true})
 

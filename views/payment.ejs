@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head.ejs') %>
+  <title>Payment Options</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 20px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    h4 {
+      margin-top: 10px;
+    }
+
+    /* Payment Option Styling */
+    .payment-option {
+      margin: 20px 0;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: #f9f9f9;
+    }
+    .qr-code {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      margin: 10px auto;
+    }
+    button {
+      padding: 12px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #45a049;
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 768px) {
+      h4 {
+        font-size: 1.2em;
+      }
+      .payment-option {
+        padding: 15px;
+      }
+      button {
+        font-size: 14px;
+        padding: 10px 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h4 {
+        font-size: 1.3em;
+      }
+      .payment-option h3 {
+        font-size: 1.4em;
+      }
+      button {
+        font-size: 16px;
+        padding: 8px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img class="mt-2" src="/menuImage/logo.png" alt="Logo" width="400px">
+    <h4 class="mt-2">Payment Method</h4>
+
+    <!-- Cash on Counter Option -->
+    <div class="payment-option">
+      <h3>Cash on Counter</h3>
+      <form action="/confirm-order" method="post">
+        <input type="hidden" name="userId" value="<%= user._id %>">
+        <input type="hidden" name="paymentMethod" value="Cash on Counter">
+        <button type="submit">Confirm Order</button>
+      </form>
+    </div>
+
+    <!-- Static Online Payment -->
+    <div class="payment-option">
+      <h3>Pay Online</h3>
+      <div class="qr-code">
+        <img src="/Images/qr-code.png" alt="QR Code">
+      </div>
+      <p><strong>UPI ID:</strong> yourname@upi</p>
+      <form action="/paid" method="post">
+        <input type="hidden" name="userId" value="<%= user._id %>">
+        <input type="hidden" name="paymentMethod" value="Online Payment">
+        <button type="submit">Paid</button>
+      </form>
+    </div>
+  </div>
+  <%- include('./partials/script.ejs') %>
+</body>
+</html>
