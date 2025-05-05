@@ -61,6 +61,34 @@ router.post('/minus', async(req, res)=>{
         res.status(500).json({ success: false, message: "Error updating quantity" });
     }
   })
+
+  router.post('/clearall', async(req, res)=>{
+    let body = req.body;
+    let UserItems = body.UserItems;
+
+    try{
+      await Food.deleteMany({UserItems})
+      return res.redirect('/cart');
+    }
+    catch(error){
+      console.log('error baba', error);
+        res.status(500).json({ success: false, message: "Error deleting items" });
+    }
+  })
+
+  router.post('/remove', async(req, res)=>{
+    let body = req.body;
+    let itemId = body.itemId;
+
+    try{
+      await Food.deleteOne({itemId})
+      return res.redirect('/cart');
+    }
+    catch(error){
+      console.log('error baba', error);
+        res.status(500).json({ success: false, message: "Error deleting items" });
+    }
+  })
   
 module.exports = router
   

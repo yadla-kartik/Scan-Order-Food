@@ -7,25 +7,100 @@
     <%- include('./styles/home.ejs') %>
 </head>
 <body>
-    <div class="container">
-
-        <%- include('./partials/nav.ejs') %>
-
-        <%- include('./partials/menu.ejs') %>
+    <div class="header">
+      <div class="img-name">
+        <img src="/Images/logo.png" alt="">
+        <h2 style="font-size: 28px; margin-bottom: 0;">Scan N Order</h2>
+      </div>
+        <div class="more">
+          <i class="fa-solid fa-bars fa-xl" style="color: #ffff;"></i>
+        </div>
+          <div class="cancel hidden">
+            <i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i>
+        </div>
+      </div>
      
+    
+      <div class="offer-slider-wrapper">
+        <div class="offer-slider-track">
+          <img src="/Images/offer1.png" alt="Offer 1" />
+          <img src="/Images/offer3.png" alt="Offer 3" />
+          <img src="/Images/offer4.png" alt="Offer 4" />
+          <img src="/Images/offer5.png" alt="Offer 5" />
+        </div>
+      </div>
+      
+      
+      <div class="view-all">
+        <span style="font-weight: 600; font-size: 18px; color: black;">Categories</span>
+      </div>
+    <%- include('./partials/nav.ejs') %>
+    <div class="container">
+        <%- include('./partials/menu.ejs') %>
     </div>
 
     <!-- Order Bar -->
      <form action="/cart" method="get">
          <button class="order-bar">
-             <div style="font-size: 18px; color: black;">Order</div>
+             <div style="font-size: 18px; color: aliceblue;">Order</div>
              <div class="order-total">₹ 0.00</div>
          </button>
      </form>
+<!-- Side Menu Card -->
+<div id="sideMenu" class="side-menu hidden">
+  <div class="menu-card">
+    <form action="/orders" method="get">
+      <button>My Orders</button>
+    </form>
+    <form action="/logout" method="post">
+      <button>Logout</button>
+    </form>
+  </div>
+</div>
 
    
     <%- include('./scripts/home.ejs') %>
-        
+      <script>
+        const track = document.querySelector('.offer-slider-track');
+        const total = track.children.length;
+        let index = 0;
+      
+        function autoSlide() {
+          index = (index + 1) % total;
+          track.style.transform = `translateX(-${index * 100}%)`;
+        }
+      
+        setInterval(autoSlide, 3000); // change every 3s
+      </script>
+      <script>
+        const categoryItems = document.querySelectorAll('.category-item');
+        const sections = document.querySelectorAll('.menu-section');
+      
+        categoryItems.forEach(item => {
+          item.addEventListener('click', (e) => {
+            e.preventDefault();
+      
+            categoryItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+      
+            const target = item.getAttribute('href').substring(1);
+            sections.forEach(section => {
+              if (target === "all") {
+                section.classList.add('active');
+              } else {
+                if (section.id === target) {
+                  section.classList.add('active');
+                } else {
+                  section.classList.remove('active');
+                }
+              }
+            });
+          });
+        });
+      </script>
+      
+  <script src="https://kit.fontawesome.com/04b7df36b9.js" crossorigin="anonymous"></script>  
+    
     <%- include('./partials/script.ejs') %>
 
 </body>

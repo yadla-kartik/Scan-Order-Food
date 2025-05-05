@@ -120,13 +120,33 @@
                 font-size: 0.8rem;
             }
     }
+.navbar {
+    background-color: #D8222F;
+    padding: 10px 15px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.logo {
+    width: 60px;
+    height: auto; 
+    margin-right: 10px;
+}
+
+.nav-title {
+    font-size: 23px;
+}
+
   </style>
 </head>
 <body>
+  <nav class="navbar">
+    <img src="/Images/logo.png" alt="Scan N Order Logo" class="logo" width="70px">
+    <span class="nav-title">SCAN N ORDER</span>
+  </nav>
   <div class="container">
-    <div class="logo mt-3">
-      <img src="/menuImage/logo.png" alt="logo" width="400px">
-    </div>
     <% users.forEach(user => { %>
       <div class="card">
         <div class="card-body">

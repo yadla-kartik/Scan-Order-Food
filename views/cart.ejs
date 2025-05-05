@@ -1,57 +1,298 @@
-<!-- views/payment.ejs -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <%- include('./partials/head.ejs') %>
-  <title>Payment Form</title>
+  <title>Review Order</title>
   <%- include('./styles/cart.ejs') %>
 </head>
-<body>
-  <div class="container">
-    <% if (locals.UserItems && UserItems.length > 0) { %>  
-      <% UserItems.forEach((item, index) => { %>
-        <div class="items-container">
-              <div class="item">
-                <div class="item-header">
-                  <div>
-                    <div class="item-name"><%= item.name %></div>
-                    <div class="item-description"><%= item.description %></div>
-                  </div>
-                  <div class="quantity-control">
-                    <form action="/minus" method="post">
-                      <input type="hidden" name="quantity" value="<%= item.quantity %>">
-                      <input type="hidden" name="itemId" value="<%= item._id %>">
-                      <button class="quantity-btn minus">-</button>
-                    </form>
-                    <span class="quantity"><%= item.quantity %></span>
-                    <form action="/plus" method="post">
-                      <input type="hidden" name="quantity" value="<%= item.quantity %>">
-                      <input type="hidden" name="itemId" value="<%= item._id %>">
-                      <button class="quantity-btn plus">+</button>
-                    </form>
-                  </div>
-                </div>
-                <div class="price">₹<%= item.price %></div>
-              </div>
-        </div>
-      <% }) %> 
-    <% } %>
 
-    <!-- Add More Items Button -->
+<body>
+  <div class="header">
     <form action="/" method="get">
-      <button class="add-more-btn">
-        + Add more items
+      <button class="back-btn">
+        <i class="fa-solid fa-circle-chevron-left" style="color: #ececec"></i>
       </button>
     </form>
+    <h2>Review Order</h2>
+  </div>
+  <div class="container">
+    <% if (locals.UserItems && UserItems.length > 0) { %>
+    <div class="clear-all">
+      <form action="/clearall" method="post">   
+      <input type="hidden" name="UserItems" value="<%= UserItems %>" />
+        <button type="submit">Clear All</button>
+      </form>
+    </div>
+    <div class="order-list">
+      <% let totalPrice = 0; %> <% let gst = 0; %> <% let serviceTip = 0; %>
+      <% let discount = 0; %> 
+      <% UserItems.forEach((item) => { totalPrice +=Number(item.price) * Number(item.quantity); %>
+      <div class="order-item">
+        <img src="<%= item.imageUrl %>" alt="Item" />
+        <div class="item-details">
+          <p class="item-name"><%= item.name %></p>
+          <p class="item-price">₹ <%= Number(item.price).toFixed(2) %></p>
+        </div>
+        <div class="quantity-control">
+          <form action="/minus" method="post">
+            <input type="hidden" name="quantity" value="<%= item.quantity %>" />
+            <input type="hidden" name="itemId" value="<%= item._id %>" />
+            <button style="background-color: #ffffff" class="qty-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                <rect width="24" height="24" rx="4" fill="lightgrey" />
+                <rect x="8" y="11" width="8" height="2" fill="black" />
+              </svg>
+            </button>
+          </form>
+          <span class="quantity"><%= item.quantity %></span>
+          <form action="/plus" method="post">
+            <input type="hidden" name="quantity" value="<%= item.quantity %>" />
+            <input type="hidden" name="itemId" value="<%= item._id %>" />
+            <button class="qty-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                <rect width="24" height="24" rx="4" fill="#D8222F" />
+                <path d="M7 11h4V7h2v4h4v2h-4v4h-2v-4H7v-2z" fill="white" />
+              </svg>
+            </button>
+          </form>
+          <form action="/remove" method="post">
+            <input type="hidden" name="itemId" value="<%= item._id %>" />
+            <button class="remove-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="lightgrey" />
+                <path d="M15 9l-6 6M9 9l6 6" stroke="black" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+      <% }) %> <% gst = totalPrice * 0.05; %> <% serviceTip = totalPrice *
+        0.10; %>  <% discount = totalPrice - 30 %>
+    </div>
+    <form action="/" method="get">
+      <button style="
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+          " class="add-more">
+        <i class="fa-solid fa-circle-plus fa-lg" style="color: #1a1a1a"></i>
+        <span id="add-more">Add more items</span>
+      </button>
+    </form>
+  </div>
+  <div class="pay">
+    <form action="/orderBill" method="get">
+      <button class="pay-btn">
+        <div class="pay-now">
+          <span style="margin-right: 7px; margin-left: 10px"><i class="fa-regular fa-credit-card fa-lg" style="color: #fafafa"></i></span>
+          <span>Pay Now</span>
+        </div>
+        <span id="amt" style="margin-right: 10px">
+          ₹ <%= (totalPrice + gst + serviceTip - discount).toFixed(2) %>
+        </span>
+      </button>
+    </form>
+  </div>
+  <h5 style="margin-left: 25px">Offers & Benefits</h5>
+  <div class="container2">
+    <div class="ac">
+      <div class="div">
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24" style="fill: #070707e37, 7);transform:rotate(180deg);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2);">
+          <path d="m20.749 12 1.104-1.908a1 1 0 0 0-.365-1.366l-1.91-1.104v-2.2a1 1 0 0 0-1-1h-2.199l-1.103-1.909a1.008 1.008 0 0 0-.607-.466.993.993 0 0 0-.759.1L12 3.251l-1.91-1.105a1 1 0 0 0-1.366.366L7.62 4.422H5.421a1 1 0 0 0-1 1v2.199l-1.91 1.104a.998.998 0 0 0-.365 1.367L3.25 12l-1.104 1.908a1.004 1.004 0 0 0 .364 1.367l1.91 1.104v2.199a1 1 0 0 0 1 1h2.2l1.104 1.91a1.01 1.01 0 0 0 .866.5c.174 0 .347-.046.501-.135l1.908-1.104 1.91 1.104a1.001 1.001 0 0 0 1.366-.365l1.103-1.91h2.199a1 1 0 0 0 1-1v-2.199l1.91-1.104a1 1 0 0 0 .365-1.367L20.749 12zM9.499 6.99a1.5 1.5 0 1 1-.001 3.001 1.5 1.5 0 0 1 .001-3.001zm.3 9.6-1.6-1.199 6-8 1.6 1.199-6 8zm4.7.4a1.5 1.5 0 1 1 .001-3.001 1.5 1.5 0 0 1-.001 3.001z"></path>
+        </svg>
+        <p style="font-size: 17px">Apply Coupon</p>
+      </div>
+      <div class="div2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1); transform: ; msfilter: ">
+          <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="container3" style="display: none">
+    <div class="section-title">
+      <span>Best coupon</span>
+      <span class="close">
+        <i class="fa-solid fa-xmark fa-lg" style="color: #8a8a8ab2"></i>
+      </span>
+    </div>
+    <div class="coupon-card">
+      <div class="tag">35% OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          <span id="code">
+            TRYNEW
+          </span>
+           <span class="apply-btn">APPLY</span>
+        </div>
+        <div class="coupon-subtitle">
+          Save <%= (totalPrice * 0.35).toFixed(2) %> on this order!
+        </div>
+        <div class="coupon-description">
+          Use code TRYNEW & get 35% off on orders. Maximum discount: ₹100.
+        </div>
+      </div>
+    </div>
+    <div class="coupon-card">
+      <div class="tag">20% OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          <span id="code">
+            GET20
+          </span> <span class="apply-btn">APPLY</span>
+        </div>
+        <div class="coupon-subtitle">
+          Save <%= (totalPrice * 0.20).toFixed(2) %> on this order!
+        </div>
+        <div class="coupon-description">
+          Use code GET20 & get 20% off on your first orders. Maximum discount:
+          ₹60.
+        </div>
+      </div>
+    </div>
+    <div class="section-title"> <span>
+      More offers
+    </span></div>
 
-    <!-- Pay Now Button -->
-     <form action="/payment" method="get">
-       <button class="pay-now-btn">Pay Now</button>
-     </form>
+    <div class="coupon-card">
+      <div class="tag">60% OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          <span id="code">
+            TRYNEW
+          </span> <span class="apply-btn">APPLY</span>
+        </div>
+        <div class="coupon-subtitle">Save ₹120 on this order!</div>
+        <div class="coupon-description">
+          Use code TRYNEW & get 60% off on orders above ₹149. Maximum
+          discount: ₹120.<br />
+        </div>
+      </div>
+    </div>
+
+    <div class="coupon-card">
+      <div class="tag">40% OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          <span id="code">
+            AXIS200
+          </span> <span class="apply-btn">APPLY</span>
+        </div>
+        <div class="coupon-subtitle">
+          Save ₹166 using Axis Bank Credit Cards!
+        </div>
+        <div class="coupon-description">
+          Max discount ₹200 on orders above ₹400 using Axis Bank Select Credit
+          Cards.
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <h5>Payment Details</h5>
+    <div class="price">
+      <div class="item-p">
+        <p style="font-weight: 500">Items Total</p>
+        <p style="font-weight: 500">₹ <%= totalPrice.toFixed(2) %></p>
+      </div>
+      <div class="item-p">
+        <p>GST</p>
+        <p id="tax">₹ <%= gst.toFixed(2) %></p>
+      </div>
+
+      <div class="item-p">
+        <p>Service Tip</p>
+        <p id="tax">₹ <%= serviceTip.toFixed(2) %></p>
+      </div>
+      <div class="item-p">
+        <p>Discount Code (<span></span>)</p>
+        <p id="tax">₹ <%= discount.toFixed(2) %></p>
+      </div>
+
+      <div class="you-pay">
+        <p>You Pay</p>
+        <p>₹ <%= (totalPrice + gst + serviceTip - discount).toFixed(2) %></p>
+      </div>
+    </div>
   </div>
 
-  <!-- Include Scripts -->
-  <%- include('./scripts/cart.ejs') %>
-  <%- include('./partials/script.ejs') %>
+  <div class="re">Review your order and details to avoid cancellations</div>
+
+  <div class="container4">
+    <div class="cancel">
+      <div class="note">
+        <span style="color: #d8222f; font-weight: 600; font-size: 15px">Note:</span>
+        <span style="font-size: 12px">If you cancel within 60 Seconds of placing your order, a 100% refund will be issued. No refund For cancellations made after 60 seconds.</span>
+      </div>
+      <p style="margin-top: 10px; margin-bottom: 0; font-size: 15px; color: #777777d7;font-size: 12px;">
+        Avoid cancellation as it leads to food wastage.
+      </p>
+      <a class="read-policy" href="#" style="margin-top: 10px; color: #d8222f; margin-bottom: 0;font-size: 16px;font-weight: 500;">READ CANCELLATION POLICY</a>
+    </div>
+  </div>
+  <div class="policy-container"><!--changes-->
+    <div class="policy-header">
+      <h5>Cancellation Policy</h5>
+    </div>
+    
+    <div class="policy-item">
+      <div class="policy-number">1</div>
+      <p class="policy-text">Full refund available if cancelled within 60 seconds of order placement.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">2</div>
+      <p class="policy-text">No refund for cancellations after 60 seconds as preparation begins immediately.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">3</div>
+      <p class="policy-text">Delivery cancellations not permitted once rider has collected your order.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">4</div>
+      <p class="policy-text">Wrong address provided by customer will not be eligible for refund.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">5</div>
+      <p class="policy-text">Special orders (customized items) cannot be cancelled once placed.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">6</div>
+      <p class="policy-text">Refunds will be processed within 5-7 business days to original payment method.</p>
+    </div>
+  </div>
+  <% } else { %>
+  <div class="empty-img">
+    <img src="/Images/empty.png" alt="" />
+  </div>
+  <div class="empty-menu">
+    <p style="
+          font-weight: 600;
+          font-size: 17px;
+          margin-top: 10px;
+        ">
+      Empty Menu
+    </p>
+    <pre id="p">
+Looks like you haven't made 
+          your choice yet...</pre>
+  </div>
+  <form action="/" method="get" class="b2m">
+    <button>Back to Menu</button>
+  </form>
+  <div class="foot">
+    <span style="color: #d8222f">Check what we've got for you </span>
+    <span style="color: #8d8d8d">and get it swished!</span>
+  </div>
+  <% } %> <%- include('./scripts/cart.ejs') %> <%-
+    include('./partials/script.ejs') %>
+  <script src="https://kit.fontawesome.com/04b7df36b9.js" crossorigin="anonymous"></script>
 </body>
+
 </html>

@@ -12,6 +12,10 @@ const food_schema = new mongoose.Schema({
         price:{
             type: String,
         },
+        imageUrl:{
+            type: String,
+            required: true,
+        },
         createdBy:{
             type: mongoose.Schema.Types.ObjectId,
             ref: "user",
@@ -29,7 +33,14 @@ const food_schema = new mongoose.Schema({
             type: String,
             default: 'Pending'
         },
-        paymentMethod: { type: String, default: "" }   
+        coupon:{
+            type: String,
+            default: null,
+        },
+        discountedPrice:{
+            type: String,
+            default: null,
+        },
     }]
 },{timestamps: true})
 

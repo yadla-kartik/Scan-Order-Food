@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gamer's Port - Level Up Your Gaming Experience</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#9B59B6", secondary: "#00F7FF" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <style>
+      :where([class^="ri-"])::before {
+        content: "\f3c2";
+      }
+      @keyframes glow {
+        0% {
+          box-shadow: 0 0 5px #00f7ff;
+        }
+        50% {
+          box-shadow: 0 0 20px #00f7ff, 0 0 30px #9b59b6;
+        }
+        100% {
+          box-shadow: 0 0 5px #00f7ff;
+        }
+      }
+      @keyframes float {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+      .glow-effect {
+        animation: glow 3s infinite;
+      }
+      .float-animation {
+        animation: float 6s ease-in-out infinite;
+      }
+      .pixel-font {
+        font-family: "Press Start 2P", cursive;
+      }
+      .gaming-font {
+        font-family: "Orbitron", sans-serif;
+      }
+      .gradient-bg {
+        background: linear-gradient(135deg, #1b1464 0%, #9b59b6 100%);
+      }
+      .neon-border {
+        border: 2px solid #00f7ff;
+        box-shadow: 0 0 10px #00f7ff;
+      }
+      .custom-checkbox {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #00f7ff;
+        border-radius: 4px;
+        background-color: transparent;
+        display: inline-block;
+        position: relative;
+        margin-right: 8px;
+        cursor: pointer;
+      }
+      .custom-checkbox:checked {
+        background-color: #9b59b6;
+        border-color: #9b59b6;
+      }
+      .custom-checkbox:checked::after {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 2px;
+        width: 6px;
+        height: 12px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+      .custom-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+      }
+      .custom-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .switch-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #1b1464;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+      .switch-slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .switch-slider {
+        background-color: #9b59b6;
+      }
+      input:checked + .switch-slider:before {
+        transform: translateX(26px);
+      }
+      .custom-range {
+        width: 100%;
+        height: 8px;
+        border-radius: 4px;
+        background: #1b1464;
+        outline: none;
+      }
+      .custom-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #00f7ff;
+        cursor: pointer;
+        box-shadow: 0 0 8px #00f7ff;
+      }
+      .custom-range::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #00f7ff;
+        cursor: pointer;
+        box-shadow: 0 0 8px #00f7ff;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white">
+    <!-- Navigation -->
+    <nav
+      class="fixed w-full z-50 bg-gray-900/90 backdrop-blur-md border-b border-gray-800">
+      <div
+    class="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center">
+          <div class="text-2xl font-['Pacifico'] text-[#00F7FF] mr-2">
+            Gamer's Port
+          </div>
+        </div>
+        <div class="hidden md:flex items-center space-x-8 gaming-font">
+          <a
+            href="#"
+            class="text-white hover:text-[#00F7FF] transition-colors duration-300"
+            >Home</a
+          >
+          <a
+            href="#"
+            class="text-white hover:text-[#00F7FF] transition-colors duration-300"
+            >About</a
+          >
+          <a
+            href="#"
+            class="text-white hover:text-[#00F7FF] transition-colors duration-300"
+            >Pricing</a
+          >
+          <a
+            href="#"
+            class="text-white hover:text-[#00F7FF] transition-colors duration-300"
+            >Gallery</a
+          >
+          <a
+            href="#"
+            class="text-white hover:text-[#00F7FF] transition-colors duration-300"
+            >Contact</a
+          >
+        </div>
+        <div class="flex items-center space-x-4">
+          <button
+            class="hidden md:block bg-[#00F7FF] hover:bg-[#00d8dd] text-gray-900 font-bold py-2 px-6 !rounded-button gaming-font whitespace-nowrap transition-all duration-300"
+          >
+            Book Now
+          </button>
+          <div
+            class="md:hidden w-10 h-10 flex items-center justify-center text-[#00F7FF]"
+          >
+            <i class="ri-menu-line ri-lg"></i>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Hero Section -->
+    <section
+      class="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style="
+        background-image: url('https://readdy.ai/api/search-image?query=futuristic%20gaming%20cafe%20interior%20with%20purple%20and%20blue%20neon%20lights%2C%20high-end%20gaming%20computers%20with%20RGB%20lighting%2C%20cyberpunk%20atmosphere%2C%20gaming%20peripherals%2C%20immersive%20environment%2C%20no%20people%20visible%2C%20dark%20background%20with%20vibrant%20colors%2C%20digital%20aesthetic%2C%20high%20quality%2C%20detailed&width=1920&height=1080&seq=1&orientation=landscape');
+        background-size: cover;
+        background-position: center;
+      "
+    >
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-gray-900/90 to-gray-900/60"
+      ></div>
+      <div class="container mx-auto px-4 z-10 w-full">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="w-full md:w-1/2 text-center md:text-left mb-12 md:mb-0">
+            <h1
+              class="pixel-font text-3xl md:text-5xl leading-tight mb-6 text-white"
+            >
+              <span class="block">LEVEL UP</span>
+              <span class="block text-[#00F7FF]">AT GAMER'S PORT</span>
+            </h1>
+            <p class="gaming-font text-lg md:text-xl mb-8 text-gray-300">
+              The ultimate battlestation for casual players, competitive gamers,
+              and streamers. Experience high-end rigs, ultra-fast internet, and
+              a vibrant gaming community.
+            </p>
+            <div
+              class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start"
+            >
+              <button
+                class="glow-effect bg-[#9B59B6] hover:bg-[#8e44ad] text-white font-bold py-3 px-8 !rounded-button gaming-font whitespace-nowrap transition-all duration-300 text-lg"
+              >
+                Book Your Rig
+              </button>
+              <button
+                class="border-2 border-[#00F7FF] hover:bg-[#00F7FF]/10 text-[#00F7FF] font-bold py-3 px-8 !rounded-button gaming-font whitespace-nowrap transition-all duration-300 text-lg"
+              >
+                View Pricing
+              </button>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 float-animation">
+            <img
+              src="https://readdy.ai/api/search-image?query=gaming%20controller%20with%20RGB%20lighting%2C%20gaming%20mouse%20and%20keyboard%2C%20professional%20gaming%20setup%2C%20cyberpunk%20style%2C%20purple%20and%20blue%20neon%20glow%2C%20high-tech%20gaming%20equipment%2C%20detailed%2C%20high%20quality%2C%20digital%20art&width=600&height=600&seq=2&orientation=squarish"
+              alt="Gaming Equipment"
+              class="mx-auto rounded-lg shadow-2xl"
+              style="max-width: 80%"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Features Section -->
+    <section class="py-20 bg-gray-900">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="pixel-font text-3xl md:text-4xl mb-4">
+            WHY <span class="text-[#00F7FF]">GAMER'S PORT</span>?
+          </h2>
+          <p class="gaming-font text-gray-400 max-w-3xl mx-auto">
+            Experience gaming like never before with our premium facilities and
+            cutting-edge technology.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Feature 1 -->
+          <div
+            class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:border-[#9B59B6] transition-all duration-300 group"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center text-[#00F7FF] mb-6 mx-auto bg-gray-800 rounded-full group-hover:scale-110 transition-transform duration-300"
+            >
+              <i class="ri-wifi-line ri-2x"></i>
+            </div>
+            <h3 class="gaming-font text-xl text-center mb-4 text-white">
+              Ultra-Fast Internet
+            </h3>
+            <p class="text-gray-400 text-center">
+              1 Gbps fiber connection with ultra-low latency for competitive
+              gaming and streaming.
+            </p>
+          </div>
+          <!-- Feature 2 -->
+          <div
+            class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:border-[#9B59B6] transition-all duration-300 group"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center text-[#00F7FF] mb-6 mx-auto bg-gray-800 rounded-full group-hover:scale-110 transition-transform duration-300"
+            >
+              <i class="ri-computer-line ri-2x"></i>
+            </div>
+            <h3 class="gaming-font text-xl text-center mb-4 text-white">
+              RTX Gaming Rigs
+            </h3>
+            <p class="text-gray-400 text-center">
+              High-end PCs with RTX 4080 GPUs, i9 processors, and 240Hz monitors
+              for the ultimate gaming experience.
+            </p>
+          </div>
+          <!-- Feature 3 -->
+          <div
+            class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:border-[#9B59B6] transition-all duration-300 group"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center text-[#00F7FF] mb-6 mx-auto bg-gray-800 rounded-full group-hover:scale-110 transition-transform duration-300"
+            >
+              <i class="ri-gamepad-line ri-2x"></i>
+            </div>
+            <h3 class="gaming-font text-xl text-center mb-4 text-white">
+              Premium Peripherals
+            </h3>
+            <p class="text-gray-400 text-center">
+              Professional-grade mechanical keyboards, gaming mice, and
+              high-fidelity headsets at every station.
+            </p>
+          </div>
+          <!-- Feature 4 -->
+          <div
+            class="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-gray-700 hover:border-[#9B59B6] transition-all duration-300 group"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center text-[#00F7FF] mb-6 mx-auto bg-gray-800 rounded-full group-hover:scale-110 transition-transform duration-300"
+            >
+              <i class="ri-cup-line ri-2x"></i>
+            </div>
+            <h3 class="gaming-font text-xl text-center mb-4 text-white">
+              Café Lounge
+            </h3>
+            <p class="text-gray-400 text-center">
+              Energizing drinks and snacks to fuel your gaming sessions,
+              available right at your station.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Gaming Space Showcase -->
+    <section class="py-20 gradient-bg">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="pixel-font text-3xl md:text-4xl mb-4">
+            OUR <span class="text-[#00F7FF]">GAMING SPACE</span>
+          </h2>
+          <p class="gaming-font text-gray-300 max-w-3xl mx-auto">
+            Step into the future of gaming with our state-of-the-art facilities
+            designed for maximum immersion.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Image 1 -->
+          <div class="overflow-hidden rounded-lg shadow-2xl group">
+            <img
+              src="https://readdy.ai/api/search-image?query=modern%20gaming%20cafe%20interior%20with%20multiple%20gaming%20stations%2C%20RGB%20lighting%2C%20gaming%20chairs%2C%20neon%20purple%20and%20blue%20lights%2C%20cyberpunk%20atmosphere%2C%20high-end%20gaming%20setup%2C%20no%20people%20visible%2C%20professional%20photography&width=600&height=400&seq=3&orientation=landscape"
+              alt="Gaming Station"
+              class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div class="p-4 bg-gray-800">
+              <h3 class="gaming-font text-xl mb-2 text-white">
+                Premium Gaming Stations
+              </h3>
+              <p class="text-gray-400">
+                Custom-built rigs with ergonomic seating for extended gaming
+                sessions.
+              </p>
+            </div>
+          </div>
+          <!-- Image 2 -->
+          <div class="overflow-hidden rounded-lg shadow-2xl group">
+            <img
+              src="https://readdy.ai/api/search-image?query=esports%20tournament%20setup%20in%20gaming%20cafe%2C%20multiple%20screens%2C%20tournament%20area%2C%20audience%20seating%2C%20stage%20with%20gaming%20setups%2C%20RGB%20lighting%2C%20cyberpunk%20style%2C%20purple%20and%20blue%20lighting%2C%20professional%20photography&width=600&height=400&seq=4&orientation=landscape"
+              alt="Tournament Area"
+              class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div class="p-4 bg-gray-800">
+              <h3 class="gaming-font text-xl mb-2 text-white">
+                Tournament Arena
+              </h3>
+              <p class="text-gray-400">
+                Dedicated space for competitive gaming events and local
+                tournaments.
+              </p>
+            </div>
+          </div>
+          <!-- Image 3 -->
+          <div class="overflow-hidden rounded-lg shadow-2xl group">
+            <img
+              src="https://readdy.ai/api/search-image?query=gaming%20cafe%20lounge%20area%20with%20comfortable%20seating%2C%20bar%20counter%20with%20energy%20drinks%20and%20snacks%2C%20purple%20and%20blue%20ambient%20lighting%2C%20cyberpunk%20style%2C%20modern%20interior%20design%2C%20professional%20photography&width=600&height=400&seq=5&orientation=landscape"
+              alt="Lounge Area"
+              class="w-full h-64 object-cover object-top transition-transform duration-500 group-hover:scale-110"
+            />
+            <div class="p-4 bg-gray-800">
+              <h3 class="gaming-font text-xl mb-2 text-white">
+                Refreshment Zone
+              </h3>
+              <p class="text-gray-400">
+                Energizing drinks and gamer-friendly snacks to keep you in the
+                zone.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-12">
+          <a
+            href="https://readdy.ai/home/23678d0e-944c-4786-a380-f885ea887ec7/3a51591a-4690-4425-816d-49345d24ef74"
+            data-readdy="true"
+          >
+            <button
+              class="bg-transparent border-2 border-[#00F7FF] hover:bg-[#00F7FF]/10 text-[#00F7FF] font-bold py-3 px-8 !rounded-button gaming-font whitespace-nowrap transition-all duration-300"
+            >
+              View Full Gallery
+            </button>
+          </a>
+        </div>
+      </div>
+    </section>
+    <!-- Pricing Section -->
+    <section class="py-20 bg-gray-900">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="pixel-font text-3xl md:text-4xl mb-4">
+            CHOOSE YOUR <span class="text-[#00F7FF]">BATTLE PLAN</span>
+          </h2>
+          <p class="gaming-font text-gray-400 max-w-3xl mx-auto">
+            Select the perfect gaming package that suits your needs and budget.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Basic Plan -->
+          <div
+            class="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-gray-700 transition-transform duration-300 hover:transform hover:scale-105"
+          >
+            <div class="p-6 border-b border-gray-700">
+              <h3 class="gaming-font text-2xl text-white text-center">
+                CASUAL GAMER
+              </h3>
+              <div class="text-center my-6">
+                <span class="text-4xl font-bold text-white">$12</span>
+                <span class="text-gray-400">/hour</span>
+              </div>
+              <p class="text-gray-400 text-center">
+                Perfect for casual gaming sessions
+              </p>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-4">
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-300">Standard Gaming PC</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-300">1 Complimentary Drink</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-300">Basic Peripherals</span>
+                </li>
+                <li class="flex items-center text-gray-500">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-gray-500 mr-2"
+                  >
+                    <i class="ri-close-line"></i>
+                  </div>
+                  <span>Premium Seating</span>
+                </li>
+                <li class="flex items-center text-gray-500">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-gray-500 mr-2"
+                  >
+                    <i class="ri-close-line"></i>
+                  </div>
+                  <span>VIP Room Access</span>
+                </li>
+              </ul>
+              <div class="mt-8 text-center">
+                <button
+                  class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 !rounded-button gaming-font whitespace-nowrap transition-all duration-300"
+                >
+                  Select Plan
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Pro Plan -->
+          <div
+            class="bg-gradient-to-b from-[#1B1464] to-[#9B59B6]/30 rounded-lg overflow-hidden border-2 border-[#00F7FF] shadow-lg shadow-[#00F7FF]/20 transform scale-105 z-10"
+          >
+            <div
+              class="bg-[#00F7FF] text-gray-900 text-center py-2 gaming-font font-bold"
+            >
+              MOST POPULAR
+            </div>
+            <div class="p-6 border-b border-gray-700">
+              <h3 class="gaming-font text-2xl text-white text-center">
+                PRO GAMER
+              </h3>
+              <div class="text-center my-6">
+                <span class="text-4xl font-bold text-white">$20</span>
+                <span class="text-gray-400">/hour</span>
+              </div>
+              <p class="text-gray-300 text-center">
+                Enhanced experience for serious gamers
+              </p>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-4">
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-200">High-End RTX Gaming PC</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-200">2 Complimentary Drinks</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-200">Premium Peripherals</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-200">Premium Gaming Chair</span>
+                </li>
+                <li class="flex items-center text-gray-500">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-gray-500 mr-2"
+                  >
+                    <i class="ri-close-line"></i>
+                  </div>
+                  <span>VIP Room Access</span>
+                </li>
+              </ul>
+              <div class="mt-8 text-center">
+                <button
+                  class="w-full glow-effect bg-[#9B59B6] hover:bg-[#8e44ad] text-white font-bold py-3 px-6 !rounded-button gaming-font whitespace-nowrap transition-all duration-300"
+                >
+                  Select Plan
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Elite Plan -->
+          <div
+            class="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-gray-700 transition-transform duration-300 hover:transform hover:scale-105"
+          >
+            <div class="p-6 border-b border-gray-700">
+              <h3 class="gaming-font text-2xl text-white text-center">
+                ELITE GAMER
+              </h3>
+              <div class="text-center my-6">
+                <span class="text-4xl font-bold text-white">$30</span>
+                <span class="text-gray-400">/hour</span>
+              </div>
+              <p class="text-gray-400 text-center">
+                Ultimate experience for competitive players
+              </p>
+            </div>
+            <div class="p-6">
+              <ul class="space-y-4">
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-300">Ultimate RTX Gaming PC</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-300">Unlimited Drinks & Snacks</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-300">Pro-Grade Peripherals</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-300">Premium Gaming Chair</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="text-gray-300">VIP Room Access</span>
+                </li>
+              </ul>
+              <div class="mt-8 text-center">
+                <button
+                  class="w-full bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-6 !rounded-button gaming-font whitespace-nowrap transition-all duration-300"
+                >
+                  Select Plan
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Cafe Gallery -->
+    <section class="py-20 bg-gray-900">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="pixel-font text-3xl md:text-4xl mb-4">
+            OUR <span class="text-[#00F7FF]">GALLERY</span>
+          </h2>
+          <p class="gaming-font text-gray-400 max-w-3xl mx-auto">
+            Take a virtual tour of our premium gaming facilities and vibrant
+            community spaces.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Gallery Item 1 -->
+          <div class="group relative overflow-hidden rounded-lg">
+            <img
+              src="https://readdy.ai/api/search-image?query=modern%20gaming%20cafe%20interior%20with%20multiple%20gaming%20stations%2C%20RGB%20lighting%2C%20gaming%20chairs%2C%20neon%20purple%20and%20blue%20lights%2C%20cyberpunk%20atmosphere%2C%20high-end%20gaming%20setup%2C%20professional%20photography%2C%20wide%20angle%20shot&width=600&height=400&seq=7&orientation=landscape"
+              alt="Gaming Area"
+              class="w-full h-72 object-cover object-center transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+            >
+              <div class="p-6">
+                <h3 class="gaming-font text-white text-xl mb-2">
+                  Main Gaming Area
+                </h3>
+                <p class="text-gray-300">
+                  High-performance gaming stations with premium peripherals
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Gallery Item 2 -->
+          <div class="group relative overflow-hidden rounded-lg">
+            <img
+              src="https://readdy.ai/api/search-image?query=esports%20tournament%20stage%20setup%20with%20large%20LED%20screens%2C%20professional%20gaming%20equipment%2C%20audience%20seating%20area%2C%20dramatic%20purple%20and%20blue%20lighting%2C%20cyberpunk%20style%2C%20professional%20photography&width=600&height=400&seq=8&orientation=landscape"
+              alt="Tournament Area"
+              class="w-full h-72 object-cover object-center transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+            >
+              <div class="p-6">
+                <h3 class="gaming-font text-white text-xl mb-2">
+                  Tournament Stage
+                </h3>
+                <p class="text-gray-300">
+                  Professional setup for competitive gaming events
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Gallery Item 3 -->
+          <div class="group relative overflow-hidden rounded-lg">
+            <img
+              src="https://readdy.ai/api/search-image?query=modern%20gaming%20cafe%20lounge%20area%20with%20comfortable%20seating%2C%20bar%20counter%2C%20RGB%20ambient%20lighting%2C%20cyberpunk%20style%20interior%2C%20professional%20photography&width=600&height=400&seq=9&orientation=landscape"
+              alt="Lounge Area"
+              class="w-full h-72 object-cover object-center transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+            >
+              <div class="p-6">
+                <h3 class="gaming-font text-white text-xl mb-2">Lounge Area</h3>
+                <p class="text-gray-300">
+                  Relaxation space with refreshments and snacks
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Gallery Item 4 -->
+          <div class="group relative overflow-hidden rounded-lg">
+            <img
+              src="https://readdy.ai/api/search-image?query=VIP%20gaming%20room%20with%20luxury%20gaming%20chairs%2C%20high-end%20PC%20setup%2C%20private%20space%2C%20ambient%20RGB%20lighting%2C%20cyberpunk%20atmosphere%2C%20professional%20photography&width=600&height=400&seq=10&orientation=landscape"
+              alt="VIP Room"
+              class="w-full h-72 object-cover object-center transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+            >
+              <div class="p-6">
+                <h3 class="gaming-font text-white text-xl mb-2">
+                  VIP Gaming Rooms
+                </h3>
+                <p class="text-gray-300">
+                  Private gaming suites for premium experience
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Gallery Item 5 -->
+          <div class="group relative overflow-hidden rounded-lg">
+            <img
+              src="https://readdy.ai/api/search-image?query=gaming%20cafe%20streaming%20setup%20with%20professional%20microphones%2C%20cameras%2C%20green%20screen%2C%20RGB%20lighting%2C%20cyberpunk%20style%2C%20professional%20photography&width=600&height=400&seq=11&orientation=landscape"
+              alt="Streaming Setup"
+              class="w-full h-72 object-cover object-center transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+            >
+              <div class="p-6">
+                <h3 class="gaming-font text-white text-xl mb-2">
+                  Streaming Station
+                </h3>
+                <p class="text-gray-300">
+                  Professional streaming setup with high-end equipment
+                </p>
+              </div>
+            </div>
+          </div>
+          <!-- Gallery Item 6 -->
+          <div class="group relative overflow-hidden rounded-lg">
+            <img
+              src="https://readdy.ai/api/search-image?query=gaming%20cafe%20refreshment%20bar%20with%20energy%20drinks%2C%20gaming-themed%20snacks%2C%20neon%20lighting%2C%20cyberpunk%20style%20interior%2C%20professional%20photography&width=600&height=400&seq=12&orientation=landscape"
+              alt="Refreshment Bar"
+              class="w-full h-72 object-cover object-center transition-transform duration-500 group-hover:scale-110"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end"
+            >
+              <div class="p-6">
+                <h3 class="gaming-font text-white text-xl mb-2">
+                  Refreshment Bar
+                </h3>
+                <p class="text-gray-300">
+                  Wide selection of drinks and gaming snacks
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-12">
+          <button
+            class="bg-[#9B59B6] hover:bg-[#8e44ad] text-white font-bold py-3 px-8 !rounded-button gaming-font whitespace-nowrap transition-all duration-300 glow-effect"
+          >
+            View More Photos
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- Testimonials -->
+    <section class="py-20 bg-gray-800">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="pixel-font text-3xl md:text-4xl mb-4">
+            WHAT <span class="text-[#00F7FF]">GAMERS SAY</span>
+          </h2>
+          <p class="gaming-font text-gray-400 max-w-3xl mx-auto">
+            Don't just take our word for it - hear from our community of
+            satisfied gamers.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Testimonial 1 -->
+          <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+            <div class="flex items-center mb-4">
+              <div class="text-[#00F7FF]">
+                <i class="ri-double-quotes-l ri-2x"></i>
+              </div>
+            </div>
+            <p class="text-gray-300 mb-6">
+              "The gaming rigs at Gamer's Port are insane! I've never
+              experienced such smooth gameplay. The 240Hz monitors make a huge
+              difference in competitive matches."
+            </p>
+            <div class="flex items-center">
+              <div
+                class="w-12 h-12 rounded-full bg-[#9B59B6] flex items-center justify-center text-white font-bold mr-4"
+              >
+                MJ
+              </div>
+              <div>
+                <h4 class="gaming-font text-white">Michael Johnson</h4>
+                <p class="text-gray-400 text-sm">Valorant Player</p>
+              </div>
+            </div>
+          </div>
+          <!-- Testimonial 2 -->
+          <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+            <div class="flex items-center mb-4">
+              <div class="text-[#00F7FF]">
+                <i class="ri-double-quotes-l ri-2x"></i>
+              </div>
+            </div>
+            <p class="text-gray-300 mb-6">
+              "I host my weekly streaming sessions from Gamer's Port. The
+              internet speed is unmatched, and the staff is incredibly helpful
+              with any technical issues."
+            </p>
+            <div class="flex items-center">
+              <div
+                class="w-12 h-12 rounded-full bg-[#9B59B6] flex items-center justify-center text-white font-bold mr-4"
+              >
+                SR
+              </div>
+              <div>
+                <h4 class="gaming-font text-white">Sarah Rodriguez</h4>
+                <p class="text-gray-400 text-sm">Twitch Streamer</p>
+              </div>
+            </div>
+          </div>
+          <!-- Testimonial 3 -->
+          <div class="bg-gray-900 p-6 rounded-lg border border-gray-700">
+            <div class="flex items-center mb-4">
+              <div class="text-[#00F7FF]">
+                <i class="ri-double-quotes-l ri-2x"></i>
+              </div>
+            </div>
+            <p class="text-gray-300 mb-6">
+              "Our esports team practices at Gamer's Port twice a week. The
+              tournament area is perfect for team coordination, and the
+              environment keeps us focused."
+            </p>
+            <div class="flex items-center">
+              <div
+                class="w-12 h-12 rounded-full bg-[#9B59B6] flex items-center justify-center text-white font-bold mr-4"
+              >
+                DT
+              </div>
+              <div>
+                <h4 class="gaming-font text-white">David Thompson</h4>
+                <p class="text-gray-400 text-sm">Team Captain, Nexus Esports</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Newsletter Section -->
+    <section class="py-20 bg-gray-900 relative overflow-hidden">
+      <div
+        class="absolute inset-0"
+        style="
+          background-image: url('https://readdy.ai/api/search-image?query=abstract%20digital%20grid%20with%20purple%20and%20blue%20neon%20lights%2C%20cyberpunk%20style%2C%20tech%20background%2C%20digital%20network%2C%20futuristic%2C%20high%20quality&width=1920&height=600&seq=6&orientation=landscape');
+          background-size: cover;
+          background-position: center;
+          opacity: 0.2;
+        "
+      ></div>
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-3xl mx-auto text-center">
+          <h2 class="pixel-font text-3xl md:text-4xl mb-6">
+            JOIN OUR <span class="text-[#00F7FF]">GUILD</span>
+          </h2>
+          <p class="gaming-font text-gray-300 mb-8">
+            Subscribe to our newsletter for exclusive promotions, tournament
+            announcements, and gaming tips.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-0 max-w-xl mx-auto"
+          >
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              class="flex-grow py-3 px-4 bg-gray-800 border-none !rounded-l-button focus:outline-none focus:ring-2 focus:ring-[#00F7FF]"
+            />
+            <button
+              class="bg-[#9B59B6] hover:bg-[#8e44ad] text-white font-bold py-3 px-6 !rounded-r-button gaming-font whitespace-nowrap transition-all duration-300"
+            >
+              Subscribe
+            </button>
+          </div>
+          <div class="mt-6 text-gray-400 text-sm">
+            <label class="flex items-center justify-center cursor-pointer">
+              <input type="checkbox" class="custom-checkbox" />
+              <span>I agree to receive gaming news and promotional emails</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-gray-900 border-t border-gray-800 pt-16 pb-8">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+          <div>
+            <div class="text-3xl font-['Pacifico'] text-[#00F7FF] mb-4">
+              Gamer's Port
+            </div>
+            <p class="text-gray-400 mb-6">
+              The ultimate gaming café experience with high-end equipment and a
+              vibrant community.
+            </p>
+            <div class="flex space-x-4">
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-[#00F7FF] hover:bg-[#00F7FF] hover:text-gray-900 transition-colors duration-300"
+              >
+                <i class="ri-facebook-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-[#00F7FF] hover:bg-[#00F7FF] hover:text-gray-900 transition-colors duration-300"
+              >
+                <i class="ri-twitter-x-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-[#00F7FF] hover:bg-[#00F7FF] hover:text-gray-900 transition-colors duration-300"
+              >
+                <i class="ri-instagram-fill"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-800 text-[#00F7FF] hover:bg-[#00F7FF] hover:text-gray-900 transition-colors duration-300"
+              >
+                <i class="ri-discord-fill"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h3 class="gaming-font text-white text-lg mb-4">Quick Links</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >Pricing</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >Gallery</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="gaming-font text-white text-lg mb-4">Services</h3>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >Gaming Stations</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >Tournament Hosting</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >Birthday Parties</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >Corporate Events</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="text-gray-400 hover:text-[#00F7FF] transition-colors duration-300"
+                  >VIP Rooms</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="gaming-font text-white text-lg mb-4">Contact Us</h3>
+            <ul class="space-y-4">
+              <li class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2 mt-1"
+                >
+                  <i class="ri-map-pin-line"></i>
+                </div>
+                <span class="text-gray-400"
+                  >123 Gaming Street, Digital City, CA 90210</span
+                >
+              </li>
+              <li class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2 mt-1"
+                >
+                  <i class="ri-phone-line"></i>
+                </div>
+                <span class="text-gray-400">+1 (555) 123-4567</span>
+              </li>
+              <li class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2 mt-1"
+                >
+                  <i class="ri-mail-line"></i>
+                </div>
+                <span class="text-gray-400">info@gamersport.com</span>
+              </li>
+              <li class="flex items-start">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-[#00F7FF] mr-2 mt-1"
+                >
+                  <i class="ri-time-line"></i>
+                </div>
+                <span class="text-gray-400"
+                  >Open Daily: 10:00 AM - 2:00 AM</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-gray-800 pt-8 mt-8 text-center">
+          <p class="text-gray-500">
+            &copy; 2025 Gamer's Port. All rights reserved.
+          </p>
+          <div class="flex justify-center space-x-4 mt-4">
+            <a
+              href="#"
+              class="text-gray-500 hover:text-[#00F7FF] transition-colors duration-300 text-sm"
+              >Privacy Policy</a
+            >
+            <a
+              href="#"
+              class="text-gray-500 hover:text-[#00F7FF] transition-colors duration-300 text-sm"
+              >Terms of Service</a
+            >
+            <a
+              href="#"
+              class="text-gray-500 hover:text-[#00F7FF] transition-colors duration-300 text-sm"
+              >Cookie Policy</a
+            >
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile menu toggle
+        const menuButton = document.querySelector(".ri-menu-line");
+        if (menuButton) {
+          menuButton.addEventListener("click", function () {
+            // Mobile menu functionality would go here
+            alert("Mobile menu clicked");
+          });
+        }
+      });
+      
+      document.addEventListener("DOMContentLoaded", function () {
+        // Custom checkbox functionality
+        const checkboxes = document.querySelectorAll(".custom-checkbox");
+        checkboxes.forEach((checkbox) => {
+          checkbox.addEventListener("click", function () {
+            this.checked = !this.checked;
+          });
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Custom switch functionality
+        const switches = document.querySelectorAll(".custom-switch input");
+        switches.forEach((switchEl) => {
+          switchEl.addEventListener("change", function () {
+            // Switch toggle functionality
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Review Order</title>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRHRf3vL4Cj7dY/TqFfyBbh4gBv6TvY7c5y5AXF8t" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    *{
+      box-sizing: border-box;
+    }
+  body {
+      font-family: 'poppins', sans-serif;
+      background-color: #f8f8f8;
+      margin-bottom: 9vh;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+  h5{
+    font-size:18px ;
+    font-weight: 600;
+    }
+    p{
+    margin: 0;
+    }
+  .container {
+      width: 90%;
+      max-width: 400px;
+      margin: 15px auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      padding: 15px;
+      border-radius: 12px;
+  }
+  body::-webkit-scrollbar {
+    display: none;
+    }
+    /* /changes/ */
+  .header {
+      display: flex;
+      align-items: center;
+      background: #D8222F;
+      color: white;
+      padding: 15px 10px 10px 10px;
+      text-align: center;
+      position: absolute;
+      width: 100%;
+  }
+  .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 25px;
+      cursor: pointer;
+      margin-bottom: 6px;
+      margin-right: 6px;
+  }
+  
+  .clear-all {
+      display: flex;
+      justify-content: right;
+      align-items: self-end;
+  }
+  .clear-all button{
+      font-size: 14px;
+      border: none;
+      border-radius: 6px;
+      background: #D8222F;
+      color: rgb(255, 255, 255);
+  }
+  .order-list {
+      padding: 10px 0;
+      margin-top: 5%;
+  }
+  .order-item {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 5px;
+      box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  }
+  .order-item img {
+      width: 70px;
+      height: 70px;
+      border-radius: 5px;
+      margin-right: 10px;
+  }
+  .item-details {
+      flex-grow: 1;
+  }
+  .item-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin: 0;
+  }
+  .item-price {
+      color: rgb(0, 0, 0);
+      font-size: 15px;
+      margin: 5px 0 0;
+  }
+  .quantity-control {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+  }
+  .qty-btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+  }
+  .remove-btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+      margin: 0;
+      padding: 0;
+  }
+  .add-more{
+      border: none;
+      background: none;
+  }
+  #add-more{
+      color: black;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+  }
+  .pay-btn{
+      position: fixed;
+      bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: calc(100% - 20px);
+      padding: 10px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+  }
+  .pay-btn {
+      background: #D8222F;
+      color: white;
+  }
+  
+  .empty-img{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .empty-menu{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  #p{
+      border: 1px solid transparent;
+      box-sizing: border-box;
+      font-size: 15px;
+      font-weight: 400;
+      color: #8d8d8d;
+      font-family: 'poppins', sans-serif;
+  }
+  .b2m{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  .b2m button{
+      border: none;
+      border-radius: 5px;
+      background-color: #D8222F;
+      color: #fff;
+      box-sizing: border-box;
+      width: 90%;
+      padding: 10px;
+      font-size: 14px;
+      box-shadow: rgba(151, 17, 17, 0.459) 0px 4px 6px -1px, rgba(224, 8, 8, 0.08) 0px 1px 0px inset;
+  }
+  .foot{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 5px;
+      font-family: 'poppins', sans-serif;
+      font-size: 14px;
+  }
+  
+  .price{
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      padding: 0 10px 0 10px;
+  }
+  .item-p{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  }
+  .item-p p, .item-p a{
+      margin-bottom: 3px;
+      font-size: 14px;
+  }
+  .you-pay{
+      display: flex;
+      justify-content: space-between;
+  }
+  .you-pay p{
+      font-size: 16px;
+      font-weight: 500;
+      margin-top: 10px;
+      margin-bottom: 3px;
+  }
+  .cancel{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+  }
+  
+  .re{
+      box-sizing: border-box;
+        color: #D8222F;
+        font-size: 14px;
+      margin: auto 15px;
+  }
+  .container2 {
+    width: 90%;
+    max-width: 400px;
+    margin: auto 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    padding: 10px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .ac {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+  }
+  .ac p {
+    margin: 0; 
+  }
+  
+  .ac i {
+    margin-left: auto; 
+  }
+  
+  .div{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+  }
+  
+  
+  
+  .coupon-card {
+        display: flex;
+        background: white;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+  
+      .tag {
+        background: #D8222F;
+        color: white;
+        padding: 20px 10px;
+        font-weight: bold;
+        font-size: 14px;
+        writing-mode: vertical-rl;
+        text-align: center;
+      }
+  
+      .coupon-content {
+        padding: 15px;
+        flex: 1;
+      }
+  
+      .coupon-title {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 5px;
+      }
+  
+      .coupon-subtitle {
+        color: green;
+        margin-bottom: 3px;
+      }
+  
+      .coupon-description {
+        font-size: 12px;
+        color: #555;
+      }
+  
+      .apply-btn {
+        color: #D8222F;
+        font-weight: 500;
+        float: right;
+        cursor: pointer;
+        font-size: 14px;
+      }
+  
+      .section-title{
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      }
+  
+      .section-title span{
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+      .overlay{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+      }
+      /* /changes/ */
+      .container3{
+          width: 90%;
+      max-width: 400px;
+      margin: auto 15px;
+      margin-top: 15%;
+      background: white;
+      border-radius: 0px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      padding: 10px;
+      border-radius: 12px;
+      position: absolute;
+    background: white;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 1000;
+      }
+    .container3::-webkit-scrollbar {
+    display: none;
+    }
+    /* /changes/ */
+      .close {
+      cursor: pointer;
+      font-size: 18px;
+  }
+      .container4 {
+      width: 90%;
+      max-width: 400px;
+      margin-bottom: 20%;
+      margin: 10px 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      padding: 15px;
+      border-radius: 12px;
+  }
+  .policy-container {
+    width: 90%;
+      max-width: 400px;
+      margin: 10px;
+      background: white;
+      border-radius: 0px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      padding: 20px 30px;
+      padding-bottom: 50px;
+      border-radius: 12px;
+      position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+}
+
+.policy-header h5 {
+  color: #D8222F;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.policy-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.policy-number {
+  background: #D8222F;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+.policy-text {
+  margin: 0;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.4;
+}
+  </style>
+</head>
+<body>
+  <div class="header">
+    <form action="/" method="get">
+      <button class="back-btn">
+        <i class="fa-solid fa-circle-chevron-left" style="color: #ececec"></i>
+      </button>
+    </form>
+    <h2>Review Order</h2>
+  </div>
+  <div class="container">
+    <!-- Assuming UserItems is populated dynamically, here we will use a sample static array for illustration -->
+    <div class="clear-all">
+      <form action="/clearall" method="post">
+        <input type="hidden" name="UserItems" value="sample_items">
+        <button type="submit">Clear All</button>
+      </form>
+    </div>
+    <div class="order-list">
+      <div class="order-item">
+        <img src="item_image.jpg" alt="Item" />
+        <div class="item-details">
+          <p class="item-name">Item Name</p>
+          <p class="item-price">₹ 199.99</p>
+        </div>
+        <div class="quantity-control">
+          <form action="/minus" method="post">
+            <input type="hidden" name="quantity" value="1" />
+            <input type="hidden" name="itemId" value="item_id" />
+            <button style="background-color: #ffffff" class="qty-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                    <rect width="24" height="24" rx="4" fill="lightgrey" />
+                    <rect x="8" y="11" width="8" height="2" fill="black" />
+                  </svg>
+            </button>
+          </form>
+          <span class="quantity">1</span>
+          <form action="/plus" method="post">
+            <input type="hidden" name="quantity" value="1" />
+            <input type="hidden" name="itemId" value="item_id" />
+            <button class="qty-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24">
+                    <rect width="24" height="24" rx="4" fill="#D8222F" />
+                    <path d="M7 11h4V7h2v4h4v2h-4v4h-2v-4H7v-2z" fill="white" />
+                  </svg>
+            </button>
+          </form>
+          <form action="/remove" method="post">
+            <input type="hidden" name="itemId" value="item_id" />
+            <button class="remove-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" fill="lightgrey" />
+                    <path d="M15 9l-6 6M9 9l6 6" stroke="black" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <form action="/" method="get">
+      <button style="display: flex; justify-content: center; align-items: center; gap: 8px;" class="add-more">
+        <i class="fa-solid fa-circle-plus fa-lg" style="color: #1a1a1a"></i>
+        <span id="add-more">Add more items</span>
+      </button>
+    </form>
+  </div>
+  <div class="pay">
+    <form action="/orderBill" method="get">
+      <button class="pay-btn">
+        <div class="pay-now">
+          <span style="margin-right: 7px; margin-left: 10px">
+            <i class="fa-regular fa-credit-card fa-lg" style="color: #fafafa"></i>
+          </span>
+          <span>Pay Now</span>
+        </div>
+        <span id="amt" style="margin-right: 10px">
+          ₹ 449.99
+        </span>
+      </button>
+    </form>
+  </div>
+  <h5>Offers & Benefits</h5>
+  <div class="container2">
+    <div class="ac">
+      <div class="div">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" style="fill: #070707e37, 7);transform:rotate(180deg);msFilter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2);">
+            <path d="m20.749 12 1.104-1.908a1 1 0 0 0-.365-1.366l-1.91-1.104v-2.2a1 1 0 0 0-1-1h-2.199l-1.103-1.909a1.008 1.008 0 0 0-.607-.466.993.993 0 0 0-.759.1L12 3.251l-1.91-1.105a1 1 0 0 0-1.366.366L7.62 4.422H5.421a1 1 0 0 0-1 1v2.199l-1.91 1.104a.998.998 0 0 0-.365 1.367L3.25 12l-1.104 1.908a1.004 1.004 0 0 0 .364 1.367l1.91 1.104v2.199a1 1 0 0 0 1 1h2.2l1.104 1.91a1.01 1.01 0 0 0 .866.5c.174 0 .347-.046.501-.135l1.908-1.104 1.91 1.104a1.001 1.001 0 0 0 1.366-.365l1.103-1.91h2.199a1 1 0 0 0 1-1v-2.199l1.91-1.104a1 1 0 0 0 .365-1.367L20.749 12zM9.499 6.99a1.5 1.5 0 1 1-.001 3.001 1.5 1.5 0 0 1 .001-3.001zm.3 9.6-1.6-1.199 6-8 1.6 1.199-6 8zm4.7.4a1.5 1.5 0 1 1 .001-3.001 1.5 1.5 0 0 1-.001 3.001z"></path>
+          </svg>
+        <p style="font-size: 14px">Apply Coupon</p>
+      </div>
+      <div class="div2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1); transform: ; msfilter: ">
+            <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
+          </svg>
+      </div>
+    </div>
+  </div>
+  <div class="overlay"><span class="close">
+    <i class="fa-solid fa-xmark fa-lg" style="color: #ffffff ; margin-left:90%; margin-top: 7%; "></i>
+  </span><!-------changes-margin-left"close from container3"------->
+</div><!-------changes-------->
+  <div class="container3" style="display: none">
+    <div class="section-title">
+      <span>Best coupon</span>
+    </div>
+    <div class="coupon-card">
+      <div class="tag">35% OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          TRYNEW <span class="apply-btn">APPLY</span>
+        </div>
+        <div class="coupon-subtitle">
+          Save ₹ 70.00 on this order!
+        </div>
+        <div class="coupon-description">
+          Use code TRYNEW & get 35% off on orders. Maximum discount: ₹100.
+        </div>
+      </div>
+    </div>
+    <div class="coupon-card">
+      <div class="tag">20% OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          GET20 <span class="apply-btn">APPLY</span>
+        </div>
+        <div class="coupon-subtitle">
+          Save ₹ 40.00 on this order!
+        </div>
+        <div class="coupon-description">
+          Use code GET20 & get 20% off on your first orders. Maximum discount: ₹60.
+        </div>
+      </div>
+    </div>
+    <div class="section-title">
+        <span>Best coupon</span>
+    </div>
+    <div class="coupon-card">
+      <div class="tag">20% OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          GET20 <span class="apply-btn">APPLY</span>
+        </div>
+        <div class="coupon-subtitle">
+          Save ₹ 40.00 on this order!
+        </div>
+        <div class="coupon-description">
+          Use code GET20 & get 20% off on your first orders. Maximum discount: ₹60.
+        </div>
+      </div>
+    </div>
+    <div class="coupon-card">
+      <div class="tag">20% OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          GET20 <span class="apply-btn">APPLY</span>
+        </div>
+        <div class="coupon-subtitle">
+          Save ₹ 40.00 on this order!
+        </div>
+        <div class="coupon-description">
+          Use code GET20 & get 20% off on your first orders. Maximum discount: ₹60.
+        </div>
+      </div>
+    </div>
+    
+
+  </div>
+  <div class="container">
+    <h5>Payment Details</h5>
+    <div class="price">
+      <div class="item-p">
+        <p style="font-weight: 500">Items Total</p>
+        <p style="font-weight: 500">₹ 199.99</p>
+      </div>
+      <div class="item-p">
+        <p>GST</p>
+        <p id="tax">₹ 10.00</p>
+      </div>
+      <div class="item-p">
+        <p>Service Tip</p>
+        <p id="tax">₹ 20.00</p>
+      </div>
+      <div class="item-p">
+        <p>Discount Code Applied(OMG123)</p>
+        <p id="tax">₹ 50.00</p>
+      </div>
+      <div class="you-pay">
+        <p>You Pay</p>
+        <p>₹ 449.99</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="re">Review your order and details to avoid cancellations</div>
+
+  <div class="container4">
+    <div class="cancel">
+      <div class="note">
+        <span style="color: #d8222f; font-weight: 600; font-size: 15px">Note:</span>
+        <span style="font-size: 12px">If you cancel within 60 Seconds of placing your order, a 100% refund will be issued. No refund For cancellations made after 60 seconds.</span>
+      </div>
+      <p style="margin-top: 10px; margin-bottom: 0; font-size: 15px; color: #777777d7;font-size: 12px;">
+        Avoid cancellation as it leads to food wastage.
+      </p>
+      <a class="read-policy" href="#" style="margin-top: 10px; color: #d8222f; margin-bottom: 0;font-size: 16px;font-weight: 500;">READ CANCELLATION POLICY</a>
+    </div>
+  </div>
+  <div class="policy-container"><!--changes-->
+    <div class="policy-header">
+      <h5>Cancellation Policy</h5>
+    </div>
+    
+    <div class="policy-item">
+      <div class="policy-number">1</div>
+      <p class="policy-text">Full refund available if cancelled within 60 seconds of order placement.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">2</div>
+      <p class="policy-text">No refund for cancellations after 60 seconds as preparation begins immediately.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">3</div>
+      <p class="policy-text">Delivery cancellations not permitted once rider has collected your order.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">4</div>
+      <p class="policy-text">Wrong address provided by customer will not be eligible for refund.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">5</div>
+      <p class="policy-text">Special orders (customized items) cannot be cancelled once placed.</p>
+    </div>
+  
+    <div class="policy-item">
+      <div class="policy-number">6</div>
+      <p class="policy-text">Refunds will be processed within 5-7 business days to original payment method.</p>
+    </div>
+  </div>
+  <script src="https://kit.fontawesome.com/04b7df36b9.js" crossorigin="anonymous"></script>
+  <script>
+     document.addEventListener('DOMContentLoaded', function (){
+      const apply = document.querySelector('.ac');
+      const closeBtn = document.querySelector('.close');
+      const overlay= document.querySelector('.overlay')
+      const cont3 = document.querySelector('.container3')
+      const read= document.querySelector('.read-policy')
+      const policy= document.querySelector('.policy-container')
+
+      apply.addEventListener('click', function (){
+        cont3.style.display = "block";
+        overlay.style.display="block";//changes
+      })
+
+
+      closeBtn.addEventListener("click", () => {
+    cont3.style.display = "none";
+    policy.style.display='none';
+    overlay.style.display="none";//changes
+  });
+    overlay.addEventListener('click',()=>{
+    cont3.style.display = "none";
+    overlay.style.display="none";
+    })//changes
+    read.addEventListener("click",()=>{
+        policy.style.display='block';
+        overlay.style.display="block";
+    })
+  })
+  </script>
+</body>
+
+</html>

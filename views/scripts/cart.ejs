@@ -1,34 +1,30 @@
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Add item functionality with smooth scroll
-        document.querySelector('.add-more-btn').addEventListener('click', function() {
-            const itemsContainer = document.querySelector('.items-container');
-            itemsContainer.insertAdjacentHTML('beforeend', itemTemplate);
-            const newItem = itemsContainer.lastElementChild;            
-            // Smooth scroll to new item
-            newItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        });
-        });
-        
-    document.addEventListener("DOMContentLoaded", function () {
-    const quantityControls = document.querySelectorAll(".quantity-control");
+  document.addEventListener('DOMContentLoaded', function (){
+   const apply = document.querySelector('.ac');
+   const closeBtn = document.querySelector('.close');
+   const overlay= document.querySelector('.overlay')
+   const cont3 = document.querySelector('.container3')
+   const read= document.querySelector('.read-policy')
+   const policy= document.querySelector('.policy-container')
 
-    quantityControls.forEach((control) => {
-      const minusButton = control.querySelector(".quantity-btn.minus");
-      const plusButton = control.querySelector(".quantity-btn.plus");
-      const quantitySpan = control.querySelector(".quantity");
+   apply.addEventListener('click', function (){
+     cont3.style.display = "block";
+     overlay.style.display="block";//changes
+   })
 
-      minusButton.addEventListener("click", () => {
-        let currentQuantity = parseInt(quantitySpan.textContent, 10);
-        if (currentQuantity > 0) {
-          quantitySpan.textContent = currentQuantity - 1;
-        }
-      });
 
-      plusButton.addEventListener("click", () => {
-        let currentQuantity = parseInt(quantitySpan.textContent, 10);
-        quantitySpan.textContent = currentQuantity + 1;
-      });
-    });
-  });
+   closeBtn.addEventListener("click", () => {
+ cont3.style.display = "none";
+ policy.style.display='none';
+ overlay.style.display="none";//changes
+});
+ overlay.addEventListener('click',()=>{
+ cont3.style.display = "none";
+ overlay.style.display="none";
+ })//changes
+ read.addEventListener("click",()=>{
+     policy.style.display='block';
+     overlay.style.display="block";
+ })
+})
 </script>

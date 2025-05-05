@@ -6,48 +6,96 @@
   <%- include('./styles/orderBill.ejs') %>
 </head>
 <body>
-  <div class="title mt-4">Order Bill</div>
-  <% if (locals.user) { %>
-    <div class="container">
-
-      <div class="customer-details">
-        <div class="ud">
-          <div>Name: <%= user.userName %></div>
-          <div>Date: <span id="current-date"></span></div>
-          <div>Time: <span id="current-time"></span></div>
+  <nav class="navbar">
+    <img src="/Images/logo.png" alt="Scan N Order Logo" class="logo">
+    <span class="nav-title">SCAN N ORDER</span>
+  </nav>
+  <div class="container">
+    <% if (locals.user) { %>
+      <h2>Order Successful !!</h2>
+      <div class="order-box" id="bill-container">
+        <div class="order-details">
+          <div class="user-details">
+            <p><strong>Name:</strong> <%= user.userName %></p>
+            <p><strong>Date:</strong> <%= new Date().toLocaleDateString() %></p>
+            <p><strong>Time:</strong> <%= new Date().toLocaleTimeString() %></p>
+          </div>
+          <button class="download-btn">Download Bill</button>
         </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+              <% let totalPrice = 0; %> <% let gst = 0; %> <% let serviceTip = 0; %>
+      <% let discount = 0; %> 
+              <% UserItems.forEach(item => { %>
+                <tr>
+                  <td><%= item.name %></td>
+                  <td><%= item.quantity %></td>
+                  <td>₹<%= item.price %></td>
+                  <td>₹<%= item.amt %></td>
+                </tr>
+              <% }); %>
+              <tr>
+                <td colspan="3"><strong>Total</strong></td>
+                <td>₹ <%= UserItems.reduce((total, item) => total + item.amt, 0) %></td>
+              </tr>
+            </tbody>
+        </table>
+        <h3>Thank you!!!</h3>
       </div>
+      <% } %>
+      <form action="/" method="get">
+        <button class="home-btn">
+          <i class="fa-solid fa-house fa-xl" style="color: #ffffff;"></i>
+         </button>
+         <div style="color: #D8222F;">Back to Home</div>
+      </form>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+<script>
+  window.onload = function () {
+    const downloadBtn = document.querySelector('.download-btn');
+    const billNode = document.getElementById('bill-container');
 
-      <hr>
+    if (!downloadBtn || !billNode) return;
 
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Item name</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% UserItems.forEach(item => { %>
-            <tr>
-              <td><%= item.name %></td>
-              <td><%= item.quantity %></td>
-              <td>₹<%= item.price %></td>
-              <td><%= item.amt %></td>
-            </tr>
-          <% }); %>
-          <tr class="total-row">
-            <td colspan="3">Total</td>
-            <td>₹ <%= UserItems.reduce((total, item) => total + item.amt, 0) %></td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="thank-you">Thank you !!!</div>
-    </div>
-  <% } %>
+    downloadBtn.addEventListener('click', function () {
+      downloadBtn.style.display = 'none';
+      billNode.style.border = 'none';
+
+      setTimeout(() => {
+        domtoimage.toPng(billNode)
+          .then(function (dataUrl) {
+            const link = document.createElement('a');
+            link.download = 'order-bill.png';
+            link.href = dataUrl;
+            link.click();
+
+            downloadBtn.style.display = 'inline-block';
+            billNode.style.border = '2px solid red'; 
+          })
+          .catch(function (error) {
+            console.error('Error generating image:', error);
+
+            downloadBtn.style.display = 'inline-block';
+            billNode.style.border = '2px solid red';
+          });
+      }, 100);
+    });
+  };
+</script>
+
   <%- include('./scripts/orderBill.ejs') %>
   <%- include('./partials/script.ejs') %>
+  <script src="https://kit.fontawesome.com/04b7df36b9.js" crossorigin="anonymous"></script>  
+  
+
 </body>
 </html>

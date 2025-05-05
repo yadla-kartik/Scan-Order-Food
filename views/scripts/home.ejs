@@ -1,36 +1,29 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        let total = 0;
         const orderTotal = document.querySelector('.order-total');
 
         // Category switching
         const categories = document.querySelectorAll('.category-item');
-        const menuSections = document.querySelectorAll('.menu-section');
 
         categories.forEach(category => {
             category.addEventListener('click', (e) => {
                 e.preventDefault();
-                
-                // Remove active class from all categories and sections
                 categories.forEach(c => c.classList.remove('active'));
-                menuSections.forEach(s => s.classList.remove('active'));
-                
-                // Add active class to clicked category and corresponding section
                 category.classList.add('active');
-                const targetId = category.getAttribute('href').substring(1);
-                document.getElementById(targetId)?.classList.add('active');
             });
         });
 
-        // Add to cart functionality
-        const addButtons = document.querySelectorAll('.add-btn');
-        addButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const price = parseFloat(this.closest('.menu-item').querySelector('.item-price').textContent.replace('₹', '').trim());
-                total += price;
-                orderTotal.textContent = `₹ ${total.toFixed(2)}`;
-            });
-        });
+        let total = 0;
+const orderTotalEl = document.querySelector('.order-total');
+const addButtons = document.querySelectorAll('.add-btn');
+
+addButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const price = parseFloat(btn.previousElementSibling.querySelector('.item-price').innerText);
+    total += price;
+    orderTotalEl.innerText = `₹ ${total.toFixed(2)}`;
+  });
+});
 
 
         addButtons.forEach((button, index) => {
@@ -40,12 +33,14 @@
         const name = menuItem.querySelector('.item-name').innerText;
         const description = menuItem.querySelector('.item-description').innerText;
         const price = menuItem.querySelector('.item-price').innerText;
+        const itemImg = menuItem.querySelector('.item-image').src ;
 
         // Data to send
         const data = {
             name,
             description,
             price,
+            itemImg,
             };
 
         // Send the data to the backend
@@ -73,5 +68,36 @@
     });
     });     
     });
+    document.addEventListener('click', function(event) {
+  const menu = document.getElementById('sideMenu');
+  const micon = document.querySelector('.more');
+  const cicon = document.querySelector('.cancel');
+
+  if (!menu.contains(event.target) && !micon.contains(event.target) && !cicon.contains(event.target)) {
+    menu.classList.add('hidden');
+    micon.classList.remove('hidden');
+    cicon.classList.add('hidden');
+  }
+});
+
+document.querySelector('.more').addEventListener('click', () => {
+  const menu = document.getElementById('sideMenu');
+  const micon = document.querySelector('.more');
+  const cicon = document.querySelector('.cancel');
+
+  micon.classList.add('hidden');
+  menu.classList.toggle('hidden');
+  cicon.classList.toggle('hidden');
+});
+
+document.querySelector('.cancel').addEventListener('click', () => {
+  const menu = document.getElementById('sideMenu');
+  const micon = document.querySelector('.more');
+  const cicon = document.querySelector('.cancel');
+
+  menu.classList.add('hidden');
+  cicon.classList.add('hidden');
+  micon.classList.remove('hidden');
+});
 
 </script>

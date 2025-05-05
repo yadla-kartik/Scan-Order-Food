@@ -8,9 +8,10 @@ const userMenu = require("./routes/menu");
 const cartRoute = require('./routes/cart');
 const { checkForAuthAndRedirect } = require("./middlewares/auth");
 const Food = require("./models/menu");
-const { timeEnd } = require("console");
+const { timeEnd, log } = require("console");
 const User = require("./models/user");
 mongoose.set("strictQuery", true);
+const compression = require('compression');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(compression());
 
 // Home route
 app.get("/", checkForAuthAndRedirect('userToken'), (req, res) => {
@@ -50,13 +52,6 @@ app.use("/", userMenu);
 app.use('/', cartRoute);
 
 
-// Payment Route
-app.get('/payment', checkForAuthAndRedirect('userToken'), (req, res)=>{
-  return res.render('payment',{
-    user: req.user,
-  });
-})
-
 // OrderBill
 app.get('/orderBill', checkForAuthAndRedirect('userToken'), async(req, res)=>{
   if(!req.user){
@@ -70,11 +65,11 @@ app.get('/orderBill', checkForAuthAndRedirect('userToken'), async(req, res)=>{
       ...userItem._doc, 
       amt: userItem.price * userItem.quantity, 
     
-  })).filter(item => item.status === 'Pending')
+  })).filter(item => item.paymentStatus === 'Pending')
 );
   return res.render('orderBill',{
     user: req.user,
-    UserItems: userItems, 
+    UserItems: userItems,
   })
 });
 
@@ -115,7 +110,7 @@ app.post('/markAsDone', async (req, res) => {
 app.get('/admin', async(req, res)=>{
 
   try {
-    const pendingOrders = await Food.find({});
+    const pendingOrders = await Food.find({ 'userItem.paymentStatus': 'Pending' });
 
     const user = await User.find({});
     let chefOrders = pendingOrders.flatMap(order =>
@@ -143,16 +138,6 @@ app.post('/paymentSuccess', async(req, res)=>{
   } catch (err) {
     res.status(500).send(err.message);
   }
-})
-
-// DeleteUser
-app.post('/deleteUser', async(req,res)=>{
-  const {userId} = req.body
-
-  await Food.deleteMany({
-    'userItem.createdBy': userId
-  })
-  res.redirect('/admin')
 })
 
 
