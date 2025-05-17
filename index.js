@@ -15,10 +15,18 @@ const compression = require('compression');
 require('dotenv').config({
   path: ".env"
 })
-
-
 const app = express();
 const port = process.env.PORT || 8000;
+const cors = require("cors");
+app.use(cors());
+
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+
 
 // EJS
 app.set("view engine", "ejs");
@@ -53,7 +61,7 @@ app.get('/order', (req, res) =>{
 app.get("/user", (req, res) => {
     return res.render("login");
 });
-app.use("/login", userRoute);
+app.use("/user", userRoute);
 
 // Logout Route
 app.get('/logout', (req, res) => {
