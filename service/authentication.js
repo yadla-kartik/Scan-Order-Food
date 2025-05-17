@@ -1,6 +1,6 @@
 const JWT = require("jsonwebtoken");
 
-secretKey = "ajskdd3s56ejs$id3jwer,sdfni%jbjf7&";
+secretKey = process.env.JWT;
 
 function generateJWT(user) {
   const payload = {
