@@ -12,11 +12,13 @@ const { timeEnd, log } = require("console");
 const User = require("./models/user");
 mongoose.set("strictQuery", true);
 const compression = require('compression');
-const dotenv = require('dotenv');
+require('dotenv').config({
+  path: ".env"
+})
 
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 
 // EJS
 app.set("view engine", "ejs");
@@ -156,13 +158,7 @@ app.post('/paymentSuccess', async(req, res)=>{
 
 
 // Connection
-connectDB("mongodb://localhost:27017/scan_order")
-  .then(() => {
-    console.log("MongoDB Connected");
-  })
-  .catch((err) => {
-    console.log("Error", err);
-  });
+connectDB()
 
 
 app.listen(port, () => console.log("Server Started at PORT", port));
