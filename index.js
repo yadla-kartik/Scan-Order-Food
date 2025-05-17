@@ -1,3 +1,6 @@
+require('dotenv').config({
+  path: ".env"
+})
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const mongoose = require("mongoose");
@@ -12,9 +15,6 @@ const { timeEnd, log } = require("console");
 const User = require("./models/user");
 mongoose.set("strictQuery", true);
 const compression = require('compression');
-require('dotenv').config({
-  path: ".env"
-})
 const app = express();
 const port = process.env.PORT || 8000;
 const cors = require("cors");
