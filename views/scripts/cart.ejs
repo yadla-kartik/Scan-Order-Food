@@ -1,30 +1,38 @@
 <script>
-  document.addEventListener('DOMContentLoaded', function (){
-   const apply = document.querySelector('.ac');
-   const closeBtn = document.querySelector('.close');
-   const overlay= document.querySelector('.overlay')
-   const cont3 = document.querySelector('.container3')
-   const read= document.querySelector('.read-policy')
-   const policy= document.querySelector('.policy-container')
+  document.addEventListener("DOMContentLoaded", function () {
+    const apply = document.querySelector(".ac");
+    const closeBtn = document.querySelector(".close");
+    const overlay = document.querySelector(".overlay");
+    const cont3 = document.querySelector(".coupon");
+    const read = document.querySelector("#read-policy");
+    const policy = document.querySelector(".policy-container");
+    const discbtn = document.querySelectorAll(".apply-btn");
+    const xmark = document.querySelector('.xmark');
 
-   apply.addEventListener('click', function (){
-     cont3.style.display = "block";
-     overlay.style.display="block";//changes
-   })
+    apply.addEventListener("click", function () {
+      cont3.style.display = "block";
+      overlay.style.display = "block"; 
+    });
 
+    closeBtn.addEventListener("click", () => {
+      cont3.style.display = "none";
+      policy.style.display = "none";
+      overlay.style.display = "none"; 
+    });
+    overlay.addEventListener("click", () => {
+      cont3.style.display = "none";
+      overlay.style.display = "none";
+    }); 
 
-   closeBtn.addEventListener("click", () => {
- cont3.style.display = "none";
- policy.style.display='none';
- overlay.style.display="none";//changes
-});
- overlay.addEventListener('click',()=>{
- cont3.style.display = "none";
- overlay.style.display="none";
- })//changes
- read.addEventListener("click",()=>{
-     policy.style.display='block';
-     overlay.style.display="block";
- })
-})
+    read.addEventListener("click", () => {
+      policy.style.display = "block";
+      overlay.style.display = "block";
+    });
+
+    xmark.addEventListener("click", () =>{
+      policy.style.display = 'none';
+      overlay.style.display = "none";
+    })
+
+  });
 </script>

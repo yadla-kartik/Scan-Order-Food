@@ -33,17 +33,28 @@ app.get("/", checkForAuthAndRedirect('userToken'), (req, res) => {
     return res.render("home",{
       user,
     });
-  } 
+  }
   else {
     return res.redirect("/user");
   }
 });
+
+// My Orders Route
+app.get('/order', (req, res) =>{
+     return res.render('totalOrders');
+})
 
 // Login Route
 app.get("/user", (req, res) => {
     return res.render("login");
 });
 app.use("/login", userRoute);
+
+// Logout Route
+app.get('/logout', (req, res) => {
+  res.clearCookie('userToken'); 
+  return res.redirect('/user'); 
+});
 
 // Home Post Route
 app.use("/", userMenu);
@@ -85,7 +96,7 @@ app.get('/chef', async(req, res)=>{
     res.render('chef', { 
       users: user,
       chefOrders 
-    }); 
+    });
   } catch (err) {
     res.status(500).send(err.message);
   } 
