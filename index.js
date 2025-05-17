@@ -12,8 +12,11 @@ const { timeEnd, log } = require("console");
 const User = require("./models/user");
 mongoose.set("strictQuery", true);
 const compression = require('compression');
+const dotenv = require('dotenv');
+
 
 const app = express();
+const port = process.env.PORT;
 
 // EJS
 app.set("view engine", "ejs");
@@ -161,6 +164,5 @@ connectDB("mongodb://localhost:27017/scan_order")
     console.log("Error", err);
   });
 
-const PORT = 8000
 
-app.listen(PORT, () => console.log("Server Started at PORT", PORT));
+app.listen(port, () => console.log("Server Started at PORT", port));
