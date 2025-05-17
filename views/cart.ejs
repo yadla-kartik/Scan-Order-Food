@@ -111,7 +111,9 @@
       </div>
     </div>
   </div>
-  <div class="container3" style="display: none">
+  <div class="overlay"></div> <!--changes-->
+  <div id="coupon-div" style="width: 100%; height: 100%;background-color: transparent ;position :relative; display: flex;justify-content: center; align-items: flex-end;">
+  <div class="coupon" style="display: none;position: absolute;top: 35%; transform: translateY(-50%);top: 20%;">
     <div class="section-title">
       <span>Best coupon</span>
       <span class="close">
@@ -178,7 +180,8 @@
         <div class="coupon-title">
           <span id="code">
             AXIS200
-          </span> <span class="apply-btn">APPLY</span>
+          </span>
+          <button class="apply-btn">APPLY</button>
         </div>
         <div class="coupon-subtitle">
           Save ₹166 using Axis Bank Credit Cards!
@@ -189,6 +192,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
   <div class="container">
     <h5>Payment Details</h5>
@@ -207,7 +211,7 @@
         <p id="tax">₹ <%= serviceTip.toFixed(2) %></p>
       </div>
       <div class="item-p">
-        <p>Discount Code (<span></span>)</p>
+        <p>Discount Code (<span id="disc"></span>)</p>
         <p id="tax">₹ <%= discount.toFixed(2) %></p>
       </div>
 
@@ -229,7 +233,7 @@
       <p style="margin-top: 10px; margin-bottom: 0; font-size: 15px; color: #777777d7;font-size: 12px;">
         Avoid cancellation as it leads to food wastage.
       </p>
-      <a class="read-policy" href="#" style="margin-top: 10px; color: #d8222f; margin-bottom: 0;font-size: 16px;font-weight: 500;">READ CANCELLATION POLICY</a>
+      <p id="read-policy" href="" style="text-decoration: underline; margin-top: 10px; color: #d8222f; margin-bottom: 0;font-size: 16px;font-weight: 500;">READ CANCELLATION POLICY</p>
     </div>
   </div>
   <div class="policy-container"><!--changes-->
@@ -241,32 +245,36 @@
       <div class="policy-number">1</div>
       <p class="policy-text">Full refund available if cancelled within 60 seconds of order placement.</p>
     </div>
-  
+    
     <div class="policy-item">
       <div class="policy-number">2</div>
       <p class="policy-text">No refund for cancellations after 60 seconds as preparation begins immediately.</p>
     </div>
-  
+    
     <div class="policy-item">
       <div class="policy-number">3</div>
       <p class="policy-text">Delivery cancellations not permitted once rider has collected your order.</p>
     </div>
-  
+    
     <div class="policy-item">
       <div class="policy-number">4</div>
       <p class="policy-text">Wrong address provided by customer will not be eligible for refund.</p>
     </div>
-  
+    
     <div class="policy-item">
       <div class="policy-number">5</div>
       <p class="policy-text">Special orders (customized items) cannot be cancelled once placed.</p>
     </div>
-  
+    
     <div class="policy-item">
       <div class="policy-number">6</div>
       <p class="policy-text">Refunds will be processed within 5-7 business days to original payment method.</p>
     </div>
+    <div class="xmark">
+      <i class="fa-solid fa-circle-xmark fa-lg" style="color: #d8222f;"></i>
+    </div>
   </div>
+  <p style="margin-bottom: 40px;"></p>
   <% } else { %>
   <div class="empty-img">
     <img src="/Images/empty.png" alt="" />
@@ -283,15 +291,16 @@
 Looks like you haven't made 
           your choice yet...</pre>
   </div>
-  <form action="/" method="get" class="b2m">
+  <form action="/" method="get" class="b2m"> 
     <button>Back to Menu</button>
   </form>
   <div class="foot">
     <span style="color: #d8222f">Check what we've got for you </span>
     <span style="color: #8d8d8d">and get it swished!</span>
   </div>
-  <% } %> <%- include('./scripts/cart.ejs') %> <%-
-    include('./partials/script.ejs') %>
+  <% } %>
+   <%- include('./scripts/cart.ejs') %> 
+  <%- include('./partials/script.ejs') %>
   <script src="https://kit.fontawesome.com/04b7df36b9.js" crossorigin="anonymous"></script>
 </body>
 
