@@ -27,7 +27,8 @@
     <div class="order-list">
       <% let totalPrice = 0; %> <% let gst = 0; %> <% let serviceTip = 0; %>
       <% let discount = 0; %> 
-      <% UserItems.forEach((item) => { totalPrice +=Number(item.price) * Number(item.quantity); %>
+      <% UserItems.forEach((item) => {
+         totalPrice +=Number(item.price) * Number(item.quantity); %>
       <div class="order-item">
         <img src="<%= item.imageUrl %>" alt="Item" />
         <div class="item-details">
@@ -83,7 +84,7 @@
     </form>
   </div>
   <div class="pay">
-    <form action="/orderBill" method="get">
+    <form action="/payment" method="get">
       <button class="pay-btn">
         <div class="pay-now">
           <span style="margin-right: 7px; margin-left: 10px"><i class="fa-regular fa-credit-card fa-lg" style="color: #fafafa"></i></span>
@@ -271,13 +272,13 @@
       <p class="policy-text">Refunds will be processed within 5-7 business days to original payment method.</p>
     </div>
     <div class="xmark">
-      <i class="fa-solid fa-circle-xmark fa-lg" style="color: #d8222f;"></i>
+      <i class="fa-solid fa-circle-xmark fa-xl" style="color: #d8222f;"></i>
     </div>
   </div>
-  <p style="margin-bottom: 40px;"></p>
+  <p style="margin-bottom: 20px;"></p>
   <% } else { %>
   <div class="empty-img">
-    <img src="/Images/empty.png" alt="" />
+    <img src="/Images/empty.png" alt=""/>
   </div>
   <div class="empty-menu">
     <p style="

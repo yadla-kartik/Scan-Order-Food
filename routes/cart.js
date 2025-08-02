@@ -22,7 +22,7 @@ router.get('/cart', checkForAuthAndRedirect('userToken'), async(req, res)=>{
       
     }
     catch(err){
-      console.error('Error fetching payment items:', err.message);
+      console.error('Error fetching food items:', err.message);
       res.status(500).send('Internal Server Error');
     }
   })

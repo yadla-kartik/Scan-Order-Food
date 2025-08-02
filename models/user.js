@@ -10,11 +10,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    role:{
-        type: String,
-        enum: ['USER', 'CHEF'],
-        default: 'USER',
-    }
 })
 
 

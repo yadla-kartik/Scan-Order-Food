@@ -9,6 +9,7 @@ const { connectDB } = require("./connection");
 const userRoute = require("./routes/user");
 const userMenu = require("./routes/menu");
 const cartRoute = require('./routes/cart');
+const payment = require('./routes/payment');
 const { checkForAuthAndRedirect } = require("./middlewares/auth");
 const Food = require("./models/menu");
 const { timeEnd, log } = require("console");
@@ -74,6 +75,9 @@ app.use("/", userMenu);
 
 // Cart Route
 app.use('/', cartRoute);
+
+// Payment Route
+app.use('/', payment);
 
 
 // OrderBill

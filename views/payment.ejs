@@ -1,66 +1,396 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPI QR Code Generator</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        input, button {
-            padding: 10px;
-            margin: 10px;
-            font-size: 16px;
-        }
-        #qrcode {
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UPI QR Code Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://kit.fontawesome.com/04b7df36b9.js" crossorigin="anonymous"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    body {
+      background-color: #f5f5f5;
+    }
+    p {
+    margin: 0;
+  }
+  body::-webkit-scrollbar {
+    display: none;
+  }
+    .header {
+      display: flex;
+      align-items: center;
+      background-color: #d8222f;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      width: 100%;
+      height: 70px;
+    }
+    .header h2 {
+      font-size: 25px;
+      font-family: "Poppins", sans-serif;
+      font-weight: 500;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+       color: white;
+    cursor: pointer;
+    margin-bottom: 2px;
+    margin-left: 5px;
+    margin-right: 10px;
+    }
+    .main-container{
+      margin: 10px;
+      padding: 15px;
+    }
+    .section-title {
+      font-size: 16px;
+      color: black;
+      margin-bottom: 5px;
+    }
+    .rec-pay, .qr-section, .pay-details {
+      background: #fff;
+      border: 1px solid #f5f5f5;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+    .rec-opt {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 0;
+      flex-wrap: wrap;
+    }
+
+    .rec-opt-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .rec-inp label {
+      margin-left: 8px;
+      font-weight: 500;
+    }
+    .qr-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+    }
+    .upi-logo img {
+      width: 30px;
+      height: 30px;
+      margin: 0 5px;
+    }
+    #karrr{
+      transform: scale(1.3);
+       transition: transform 0.3s;
+    }
+    .qr-benefit {
+      background-color: #7cf17c5b;
+      border: 1px solid #0258024b;
+      color: #025802;
+      border-radius: 20px;
+      padding: 5px 10px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 300px;
+    }
+    .form-group input {
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button.generate-btn {
+      padding: 10px 15px;
+      background-color: #d8222f;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    #qrcode {
+      margin-top: 10px;
+    }
+    .recipient-info {
+      font-size: 14px;
+      color: #333;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .pay-details h2{
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .price {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 0 10px 0 10px;
+  }
+  .item-p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .item-p p,
+  .item-p a {
+    margin-bottom: 3px;
+    font-size: 14px;
+  }
+  .you-pay {
+    display: flex;
+    justify-content: space-between;
+  }
+  .you-pay p {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 5px;
+    margin-bottom: 3px;
+  }
+
+ .pay-btn {
+  background: #d8222f;
+  color: white;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: calc(100% - 20px);
+  padding: 10px;
+  border: none;
+  border-radius: 28px;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pay{
+  text-align: center;
+}
+.upi-pay-btn {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.upi-pay-now {
+  width: 50%;
+  background-color: #d8222f;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+  </style>
 </head>
 <body>
 
-    <h2>UPI QR Code Generator</h2>
+  <div class="header">
+    <form action="/cart" method="get">
+      <button class="back-btn" title="Go Back">
+        <i class="fa-solid fa-circle-chevron-left fa-2xl" style="color: white;"></i>
+      </button>
+    </form>
+    <h2>Payment</h2>
+  </div>
+
+  <div class="main-container">
     
-    <!-- Fixed UPI ID and Recipient Name -->
-    <p><strong>Recipient:</strong> Aryan Pandey</p>
-    <p><strong>UPI ID:</strong> 9039916275@ybl</p>
+    <h2 class="section-title">PAYMENT OPTIONS</h2>
+  <div class="rec-pay">
+    <form>
+      <div class="rec-opt">
+        <div class="rec-opt-top">
+          <div class="rec-inp">
+            <input type="radio" name="pay-method" id="phonepe" onclick="toggleRadio(this)" />
+            <label for="phonepe">UPI (Pay via any App)</label>
+          </div>
+          <img src="/Images/upi.png" id="karrr"  alt="UPI" width="50" height="auto" />
+        </div>
+        <div class="upi-pay-btn" id="upiPayBtn" style="display: none;">
+          <form action="/payment-success" method="post">
+            <button class="upi-pay-now" onclick="simulatePayment(event)">Pay ₹400</button>
+          </form>
+        </div>
+        <div id="status" style="display: none;">
+          <p>Payment Success <i class="fa-solid fa-circle-check fa-lg" style="color: #58d68e;"></i></p>
+        </div>
+      </div>
+      <div class="rec-opt">
+        <div class="rec-inp">
+          <form action="/coc" method="post">
+            <input type="radio" name="pay-method" id="cod" onclick="toggleRadio(this)" />
+            <label for="cod">Cash on Counter (Cash/UPI)</label>
+          </form>
+        </div>
+        <img src="/Images/cashon.png" alt="COD" width="40" height="40" />
+      </div>
+    </form>
+  </div>
 
-    <!-- Input Fields for Amount and Note -->
-    <input type="number" id="amount" placeholder="Enter amount (optional)">
-    <button onclick="generateQR()">Generate QR Code</button>
 
-    <!-- QR Code Display -->
-    <div id="qrcode"></div>
+  <h2 class="section-title">UPI QR</h2>
+  
+  <div class="qr-section">
+  <button class="generate-btn" id="generateBtn" onclick="generateQR()">Generate QR Code</button>
 
-    <script>
-        function generateQR() {
-            // Fixed details
-            const upiId = "9039916275@ybl"; 
-            const recipientName = "Aryan Pandey";
+  <div id="qrcode" style="display: none;"></div>
 
-            // Get user input
-            let amount = document.getElementById("amount").value.trim();
+  <div class="recipient-info" id="recipientInfo" style="display: none;">
+    <p><strong>Recipient: </strong>Yadla Kartik</p>
+    <p>Scan the QR using any UPI app</p>
+  </div>
 
-            // Construct UPI URL with correct string interpolation
-            let upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(recipientName)}&mc=1234&cu=INR`;
-            if (amount) upiUrl += `&am=${amount}`;
-            if (note) upiUrl += `&tn=${encodeURIComponent(note)}`;
+  <div class="upi-logo">
+    <img src="/Images/phonepe.png" alt="PhonePe">
+    <img src="/Images/googlepay.png" alt="GPay">
+    <img src="/Images/paytm.png" alt="Paytm">
+    <img src="/Images/bhmi.png" alt="BHIM">
+  </div>
+  
+  <span class="qr-benefit">Upto ₹50 cashback</span>
+</div>
 
-            // Clear previous QR code
-            document.getElementById("qrcode").innerHTML = "";
+<div class="pay-details">
 
-            // Generate QR code
-            new QRCode(document.getElementById("qrcode"), {
-                text: upiUrl,
-                width: 200,
-                height: 200
-            });
-        }
-    </script>
+  <h2>Payment Details</h2>
+  <div class="price">
+      <div class="item-p">
+        <p style="font-weight: 500">Total</p>
+        <p style="font-weight: 500">₹ 150</p>
+      </div>
+      <div class="item-p">
+        <p>GST</p>
+        <p id="tax">₹5</p>
+      </div>
+
+      <div class="item-p">
+        <p>Service Tip</p>
+        <p id="tax">₹ 8</p>
+      </div>
+      <div class="item-p">
+        <p>Discount</p>
+        <p id="tax">₹ 20</p>
+      </div>
+      <hr>
+      <div class="you-pay">
+        <p>Total Amount</p>
+        <p>₹ 400</p>
+      </div>
+    </div>
+  </div>
+</div>
+  
+</div>
+
+<div class="pay">
+  <form method="">
+    <button class="pay-btn">
+        Continue
+    </button>
+  </form>
+</div>
+
+
+<script>
+  let selectedRadio = null;
+
+  function toggleRadio(radio) {
+    if (selectedRadio === radio) {
+      radio.checked = false;
+      selectedRadio = null;
+      document.getElementById("upiPayBtn").style.display = "none"; // hide button
+    } else {
+      selectedRadio = radio;
+
+      if (radio.id === "phonepe") {
+        document.getElementById("upiPayBtn").style.display = "block";
+      } else {
+        document.getElementById("upiPayBtn").style.display = "none";
+      }
+    }
+  }
+
+  function simulatePayment(event){
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const payBtn = document.getElementById("upiPayBtn");
+    const statusDiv = document.getElementById("status");
+    
+    payBtn.style.display = "none";
+    
+    statusDiv.innerHTML = '<p>Processing Payment... <i class="fa-solid fa-spinner fa-spin" style="color: #d8222f;"></i></p>';
+    statusDiv.style.display = "block";
+
+    setTimeout(() => {
+      statusDiv.innerHTML = '<p>Payment Success <i class="fa-solid fa-circle-check fa-lg" style="color: #58d68e;"></i></p>';
+    }, 10000);
+    setTimeout(() => {
+        window.location.href = "upi://pay?pa=8109788772@ybl&pn=Kartik&am=1&cu=INR&mc=1234";
+    }, 500);
+  }
+</script>
+
+  <script>
+    function generateQR() {
+  const upiId = "8109788772@ybl";
+  const recipientName = "Yadla Kartik";
+
+  const amount = "100"; 
+
+  let upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(recipientName)}&mc=1234&cu=INR`;
+  if (amount) upiUrl += `&am=${amount}`;
+
+  const qrDiv = document.getElementById("qrcode");
+  qrDiv.innerHTML = "";
+  qrDiv.style.display = "block";
+
+  new QRCode(qrDiv, {
+    text: upiUrl,
+    width: 80,
+    height: 80,
+  });
+
+  document.getElementById("generateBtn").style.display = "none";
+
+  document.getElementById("recipientInfo").style.display = "block";
+}
+
+  </script>
 
 </body>
 </html>
