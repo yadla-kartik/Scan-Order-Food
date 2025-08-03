@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <%- include('./partials/head.ejs') %>
-  <title>Scan & Order</title>
+  <title>Order Bill</title>
   <%- include('./styles/orderBill.ejs') %>
 </head>
 <body>
@@ -32,9 +32,9 @@
                 </tr>
             </thead>
             <tbody>
-              <% let totalPrice = 0; %> <% let gst = 0; %> <% let serviceTip = 0; %>
-      <% let discount = 0; %> 
-              <% UserItems.forEach(item => { %>
+              <% let totalPrice = 0; %> <% let gst = 0; %> <% let serviceTip = 0; %> 
+              <% UserItems.forEach(item => {
+         totalPrice +=Number(item.price) * Number(item.quantity); %> 
                 <tr>
                   <td><%= item.name %></td>
                   <td><%= item.quantity %></td>
@@ -48,7 +48,17 @@
               </tr>
             </tbody>
         </table>
-        <h3>Thank you!!!</h3>
+<% gst = totalPrice * 0.18; %> <% serviceTip = totalPrice *
+        0.10; %>
+  <p style="text-align: right;">Items Total: ₹<%= totalPrice.toFixed(2) %></p>
+  <p style="text-align: right;">GST (18%): ₹<%= gst.toFixed(2) %></p>
+  <p style="text-align: right;">Service Tip (10%): ₹<%= serviceTip.toFixed(2) %></p>
+
+  <hr>
+  <h3 style="text-align: right; font-size: 20px; font-weight: 500;">Grand Total: ₹<%= (totalPrice + gst + serviceTip).toFixed(2) %></h3>
+  
+  <hr>
+        <h3>Thank you! 🙏</h3>
       </div>
       <% } %>
       <form action="/" method="get">
@@ -87,7 +97,7 @@
             downloadBtn.style.display = 'inline-block';
             billNode.style.border = '2px solid red';
           });
-      }, 100);
+      }, 10);
     });
   };
 </script>

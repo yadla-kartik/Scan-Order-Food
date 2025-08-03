@@ -1,5 +1,4 @@
 const express = require('express');
-const { route } = require('./user');
 const { checkForAuthAndRedirect } = require('../middlewares/auth');
 const Food = require('../models/menu');
 
@@ -14,7 +13,7 @@ router.get('/cart', checkForAuthAndRedirect('userToken'), async(req, res)=>{
       const foodItems = await Food.find({
         'userItem.createdBy': req.user._id
       })
-      let userItems = foodItems.flatMap(item => item.userItem.filter(item => item.paymentStatus === 'Pending'));
+      let userItems = foodItems.flatMap(item => item.userItem.filter(item => item.status === 'Pending'));
       res.render('cart', {
         user: req.user,
         UserItems: userItems, 
@@ -76,19 +75,22 @@ router.post('/minus', async(req, res)=>{
     }
   })
 
-  router.post('/remove', async(req, res)=>{
-    let body = req.body;
-    let itemId = body.itemId;
+router.post('/remove', async (req, res) => {
+  const { itemId } = req.body;
 
-    try{
-      await Food.deleteOne({itemId})
-      return res.redirect('/cart');
-    }
-    catch(error){
-      console.log('error baba', error);
-        res.status(500).json({ success: false, message: "Error deleting items" });
-    }
-  })
+  try {
+    await Food.updateOne(
+      { 'userItem._id': itemId },
+      { $pull: { userItem: { _id: itemId } } }
+    );
+
+    return res.redirect('/cart');
+  } catch (error) {
+    console.log('error baba', error);
+    res.status(500).json({ success: false, message: "Error deleting item" });
+  }
+});
+
   
 module.exports = router
   

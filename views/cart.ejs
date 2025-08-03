@@ -26,7 +26,6 @@
     </div>
     <div class="order-list">
       <% let totalPrice = 0; %> <% let gst = 0; %> <% let serviceTip = 0; %>
-      <% let discount = 0; %> 
       <% UserItems.forEach((item) => {
          totalPrice +=Number(item.price) * Number(item.quantity); %>
       <div class="order-item">
@@ -68,8 +67,8 @@
           </form>
         </div>
       </div>
-      <% }) %> <% gst = totalPrice * 0.05; %> <% serviceTip = totalPrice *
-        0.10; %>  <% discount = totalPrice - 30 %>
+      <% }) %> <% gst = totalPrice * 0.18; %> <% serviceTip = totalPrice *
+        0.10; %>
     </div>
     <form action="/" method="get">
       <button style="
@@ -91,7 +90,7 @@
           <span>Pay Now</span>
         </div>
         <span id="amt" style="margin-right: 10px">
-          ₹ <%= (totalPrice + gst + serviceTip - discount).toFixed(2) %>
+          ₹ <%= (totalPrice + gst + serviceTip ).toFixed(2) %>
         </span>
       </button>
     </form>
@@ -112,7 +111,7 @@
       </div>
     </div>
   </div>
-  <div class="overlay"></div> <!--changes-->
+  <div class="overlay"></div> 
   <div id="coupon-div" style="width: 100%; height: 100%;background-color: transparent ;position :relative; display: flex;justify-content: center; align-items: flex-end;">
   <div class="coupon" style="display: none;position: absolute;top: 35%; transform: translateY(-50%);top: 20%;">
     <div class="section-title">
@@ -122,36 +121,52 @@
       </span>
     </div>
     <div class="coupon-card">
-      <div class="tag">35% OFF</div>
+      <div class="tag">₹5 OFF</div>
       <div class="coupon-content">
         <div class="coupon-title">
           <span id="code">
-            TRYNEW
+            SAVE10
           </span>
            <span class="apply-btn">APPLY</span>
         </div>
         <div class="coupon-subtitle">
-          Save <%= (totalPrice * 0.35).toFixed(2) %> on this order!
+          Save ₹5 on orders above ₹30!
         </div>
         <div class="coupon-description">
-          Use code TRYNEW & get 35% off on orders. Maximum discount: ₹100.
+          Use code SAVE10 & get ₹5 off. Maximum discount: ₹5.
         </div>
       </div>
     </div>
     <div class="coupon-card">
-      <div class="tag">20% OFF</div>
+      <div class="tag">₹10 OFF</div>
       <div class="coupon-content">
         <div class="coupon-title">
           <span id="code">
-            GET20
+            LITE15
           </span> <span class="apply-btn">APPLY</span>
         </div>
         <div class="coupon-subtitle">
-          Save <%= (totalPrice * 0.20).toFixed(2) %> on this order!
+           Flat ₹10 off on ₹50+ order!
         </div>
         <div class="coupon-description">
-          Use code GET20 & get 20% off on your first orders. Maximum discount:
-          ₹60.
+          Use code LITE15 & get ₹10 off. Maximum discount: ₹10.
+        </div>
+      </div>
+    </div>
+    <div class="coupon-card">
+      <div class="tag">₹17 OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          <span id="code">
+            QUICK5
+          </span>
+           <span class="apply-btn">APPLY</span>
+        </div>
+        <div class="coupon-subtitle">
+          Get ₹17 cashback on orders above ₹80!
+        </div>
+        <div class="coupon-description">
+          Use code QUICK5 & get ₹17 off. Maximum discount: ₹17.
         </div>
       </div>
     </div>
@@ -160,36 +175,53 @@
     </span></div>
 
     <div class="coupon-card">
-      <div class="tag">60% OFF</div>
+      <div class="tag">20% OFF</div>
       <div class="coupon-content">
         <div class="coupon-title">
           <span id="code">
-            TRYNEW
+            SNACK20
           </span> <span class="apply-btn">APPLY</span>
         </div>
-        <div class="coupon-subtitle">Save ₹120 on this order!</div>
+        <div class="coupon-subtitle">Flat 20% off on this order!</div>
         <div class="coupon-description">
-          Use code TRYNEW & get 60% off on orders above ₹149. Maximum
-          discount: ₹120.<br />
+          Use code SNACK20 & get 20% off on orders above ₹120. Maximum
+          discount: ₹20.<br />
         </div>
       </div>
     </div>
 
     <div class="coupon-card">
-      <div class="tag">40% OFF</div>
+      <div class="tag">25% OFF</div>
       <div class="coupon-content">
         <div class="coupon-title">
           <span id="code">
-            AXIS200
+            FOODIE25
           </span>
           <button class="apply-btn">APPLY</button>
         </div>
         <div class="coupon-subtitle">
-          Save ₹166 using Axis Bank Credit Cards!
+          Flat 25% off on this order!
         </div>
         <div class="coupon-description">
-          Max discount ₹200 on orders above ₹400 using Axis Bank Select Credit
-          Cards.
+          Max discount ₹30 on orders above ₹145.
+        </div>
+      </div>
+    </div>
+    <div class="coupon-card">
+      <div class="tag">₹15 OFF</div>
+      <div class="coupon-content">
+        <div class="coupon-title">
+          <span id="code">
+            CRAVINGS10
+          </span>
+          <button class="apply-btn">APPLY</button>
+        </div>
+        <div class="coupon-subtitle">
+          Save ₹15 off on this order!
+        </div>
+        <div class="coupon-description">
+          Use code CRAVINGS10 & get ₹15 off on orders above ₹90. Maximum
+          discount: ₹15.
         </div>
       </div>
     </div>
@@ -203,22 +235,17 @@
         <p style="font-weight: 500">₹ <%= totalPrice.toFixed(2) %></p>
       </div>
       <div class="item-p">
-        <p>GST</p>
-        <p id="tax">₹ <%= gst.toFixed(2) %></p>
+        <p>GST (18%)</p>
+        <p id="gst">₹ <%= gst.toFixed(2) %></p>
       </div>
 
       <div class="item-p">
-        <p>Service Tip</p>
-        <p id="tax">₹ <%= serviceTip.toFixed(2) %></p>
+        <p>Service Tip (10%)</p>
+        <p id="service">₹ <%= serviceTip.toFixed(2) %></p>
       </div>
-      <div class="item-p">
-        <p>Discount Code (<span id="disc"></span>)</p>
-        <p id="tax">₹ <%= discount.toFixed(2) %></p>
-      </div>
-
       <div class="you-pay">
-        <p>You Pay</p>
-        <p>₹ <%= (totalPrice + gst + serviceTip - discount).toFixed(2) %></p>
+        <p>Grand Total</p>
+        <p>₹ <%= (totalPrice + gst + serviceTip).toFixed(2) %></p>
       </div>
     </div>
   </div>

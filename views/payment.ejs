@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>UPI QR Code Generator</title>
+  <title>Payment</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="https://kit.fontawesome.com/04b7df36b9.js" crossorigin="anonymous"></script>
   <style>
@@ -231,7 +231,6 @@
     
     <h2 class="section-title">PAYMENT OPTIONS</h2>
   <div class="rec-pay">
-    <form>
       <div class="rec-opt">
         <div class="rec-opt-top">
           <div class="rec-inp">
@@ -241,9 +240,8 @@
           <img src="/Images/upi.png" id="karrr"  alt="UPI" width="50" height="auto" />
         </div>
         <div class="upi-pay-btn" id="upiPayBtn" style="display: none;">
-          <form action="/payment-success" method="post">
-            <button class="upi-pay-now" onclick="simulatePayment(event)">Pay ₹400</button>
-          </form>
+          <button class="upi-pay-now" onclick="simulatePayment(event)">          <span style="margin-right: 7px; margin-left: 10px"><i class="fa-regular fa-credit-card fa-lg" style="color: #fafafa"></i></span>
+Pay Now</button>
         </div>
         <div id="status" style="display: none;">
           <p>Payment Success <i class="fa-solid fa-circle-check fa-lg" style="color: #58d68e;"></i></p>
@@ -251,14 +249,11 @@
       </div>
       <div class="rec-opt">
         <div class="rec-inp">
-          <form action="/coc" method="post">
             <input type="radio" name="pay-method" id="cod" onclick="toggleRadio(this)" />
             <label for="cod">Cash on Counter (Cash/UPI)</label>
-          </form>
         </div>
         <img src="/Images/cashon.png" alt="COD" width="40" height="40" />
       </div>
-    </form>
   </div>
 
 
@@ -286,38 +281,46 @@
 
 <div class="pay-details">
 
+  <% if (locals.UserItems && UserItems.length > 0) { %>
+     <% let totalPrice = 0; %> <% let gst = 0; %> <% let serviceTip = 0; %>
+      <% UserItems.forEach((item) => {
+         totalPrice +=Number(item.price) * Number(item.quantity); %> 
+         <% }) %>
+         <% gst = totalPrice * 0.18; %> <% serviceTip = totalPrice *
+        0.10; %>
   <h2>Payment Details</h2>
   <div class="price">
       <div class="item-p">
         <p style="font-weight: 500">Total</p>
-        <p style="font-weight: 500">₹ 150</p>
+        <p style="font-weight: 500">₹ <%= totalPrice.toFixed(2) %></p>
       </div>
       <div class="item-p">
         <p>GST</p>
-        <p id="tax">₹5</p>
+        <p id="tax">₹ <%= gst.toFixed(2) %></p>
       </div>
 
       <div class="item-p">
         <p>Service Tip</p>
-        <p id="tax">₹ 8</p>
-      </div>
-      <div class="item-p">
-        <p>Discount</p>
-        <p id="tax">₹ 20</p>
+        <p id="tax">₹ <%= serviceTip.toFixed(2) %></p>
       </div>
       <hr>
       <div class="you-pay">
         <p>Total Amount</p>
-        <p>₹ 400</p>
+        <p>₹ <%= (totalPrice + gst + serviceTip).toFixed(2) %></p>
       </div>
     </div>
   </div>
-</div>
+  </div>
+  <% let grandTotal = totalPrice + gst + serviceTip; %>
+  <p style="display: none;" id="grandTotal">
+    <%= grandTotal.toFixed(2) %>
+  </p>
   
-</div>
+  <% } %>
+  </div>
 
 <div class="pay">
-  <form method="">
+  <form method="get" action="/orderBill">
     <button class="pay-btn">
         Continue
     </button>
@@ -332,7 +335,7 @@
     if (selectedRadio === radio) {
       radio.checked = false;
       selectedRadio = null;
-      document.getElementById("upiPayBtn").style.display = "none"; // hide button
+      document.getElementById("upiPayBtn").style.display = "none";
     } else {
       selectedRadio = radio;
 
@@ -344,25 +347,67 @@
     }
   }
 
-  function simulatePayment(event){
+  async function simulatePayment(event) {
     event.preventDefault();
     event.stopPropagation();
     
     const payBtn = document.getElementById("upiPayBtn");
     const statusDiv = document.getElementById("status");
-    
+    const grandTotal = document.getElementById("grandTotal").textContent;
+
     payBtn.style.display = "none";
     
     statusDiv.innerHTML = '<p>Processing Payment... <i class="fa-solid fa-spinner fa-spin" style="color: #d8222f;"></i></p>';
     statusDiv.style.display = "block";
 
-    setTimeout(() => {
-      statusDiv.innerHTML = '<p>Payment Success <i class="fa-solid fa-circle-check fa-lg" style="color: #58d68e;"></i></p>';
-    }, 10000);
-    setTimeout(() => {
-        window.location.href = "upi://pay?pa=8109788772@ybl&pn=Kartik&am=1&cu=INR&mc=1234";
-    }, 500);
+    try {
+      const response = await fetch('/payment-success', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({})
+      });
+
+      if (response.ok) {
+        setTimeout(() => {
+          statusDiv.innerHTML = '<p>Payment Success <i class="fa-solid fa-circle-check fa-lg" style="color: #58d68e;"></i></p>';
+        }, 10000);
+
+        setTimeout(() => {
+          window.location.href = `upi://pay?pa=8109788772@ybl&pn=Kartik&am=${grandTotal}&cu=INR&mc=1234`;
+        }, 200);
+      } else {
+        throw new Error('Payment failed');
+      }
+    } catch (error) {
+      console.error('Payment error:', error);
+      statusDiv.innerHTML = '<p>Payment Failed <i class="fa-solid fa-circle-xmark fa-lg" style="color: #ff4757;"></i></p>';
+    }
   }
+
+  function handleCashOnCounter() {
+    fetch('/coc', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({})
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Cash on Counter selected:', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+
+  document.getElementById('cod').addEventListener('change', function() {
+    if (this.checked) {
+      handleCashOnCounter();
+    }
+  });
 </script>
 
   <script>
@@ -370,10 +415,11 @@
   const upiId = "8109788772@ybl";
   const recipientName = "Yadla Kartik";
 
-  const amount = "100"; 
+    const grandTotal = document.getElementById("grandTotal").textContent;
+   
 
   let upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(recipientName)}&mc=1234&cu=INR`;
-  if (amount) upiUrl += `&am=${amount}`;
+  if (grandTotal) upiUrl += `&am=${grandTotal}`;
 
   const qrDiv = document.getElementById("qrcode");
   qrDiv.innerHTML = "";

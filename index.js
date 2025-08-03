@@ -91,10 +91,8 @@ app.get('/orderBill', checkForAuthAndRedirect('userToken'), async(req, res)=>{
   let userItems = foodItems.flatMap(item => 
     item.userItem.map(userItem => ({
       ...userItem._doc, 
-      amt: userItem.price * userItem.quantity, 
-    
-  })).filter(item => item.paymentStatus === 'Pending')
-);
+      amt: userItem.price * userItem.quantity,
+  })).filter(item => item.status === 'Pending'));
   return res.render('orderBill',{
     user: req.user,
     UserItems: userItems,
@@ -107,7 +105,7 @@ app.get('/chef', async(req, res)=>{
   try{
     const pendingOrders = await Food.find({ 'userItem.status': 'Pending' });
 
-    const user = await User.find({});
+    const user = await User.find({ isOrderDone: false });
     let chefOrders = pendingOrders.flatMap(order => order.userItem.filter(item => item.status === 'Pending'));
  
     res.render('chef', { 
@@ -121,26 +119,31 @@ app.get('/chef', async(req, res)=>{
 )
 
 app.post('/markAsDone', async (req, res) => {
-  const { itemId } = req.body;
+  const { userId } = req.body;
 
   try {
-    await Food.updateOne(
-      { 'userItem._id': itemId },
-      { $set: { 'userItem.$.status': 'Completed' } }
+    await Food.updateMany(
+      { 'userItem.createdBy': userId, 'userItem.status': 'Pending' },
+      { $set: { 'userItem.$[elem].status': 'Completed' } },
+      {
+        arrayFilters: [{ 'elem.createdBy': userId, 'elem.status': 'Pending' }]
+      }
     );
-    res.redirect('/chef'); 
+
+    res.status(200).json({ message: 'Status updated successfully.' });
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error('Error updating status:', err);
+    res.status(500).json({ error: err.message });
   }
 });
+
 
 // ADMIN Route
 app.get('/admin', async(req, res)=>{
 
   try {
-    const pendingOrders = await Food.find({ 'userItem.paymentStatus': 'Pending' });
-
-    const user = await User.find({});
+    const pendingOrders = await Food.find({});
+    const user = await User.find({ isOrderDone: false });
     let chefOrders = pendingOrders.flatMap(order =>
       order.userItem
     );
@@ -154,23 +157,42 @@ app.get('/admin', async(req, res)=>{
 
 })
 
-app.post('/paymentSuccess', async(req, res)=>{
-  const { itemId } = req.body;
-
+app.post('/mark-done', async (req, res) => {
+  const { userId } = req.body;
   try {
-    await Food.updateOne(
-      { 'userItem._id': itemId },
-      { $set: { 'userItem.$.paymentStatus': 'Success' } }
+    await User.findByIdAndUpdate(
+      userId,
+       { 
+        isOrderDone: true 
+      },
     );
-    res.redirect('/admin'); 
+
+    res.status(200).json({ message: "Order marked as done" });
   } catch (err) {
-    res.status(500).send(err.message);
+    console.error(err);
+    res.status(500).json({ error: "Failed to update order" });
   }
-})
+});
+
+app.post('/mark-paid', async (req, res) => {
+  const { userId } = req.body;
+  try {
+    await Food.updateMany(
+      { 'userItem.createdBy': userId, 'userItem.paymentStatus': '❌ Not Paid', 'userItem.payed': 'Cash On Counter' },
+      { $set: { 'userItem.$[elem].paymentStatus': '✅ Paid' } },
+      { arrayFilters: [{ 'elem.createdBy': userId, 'elem.paymentStatus': '❌ Not Paid', 'elem.payed': 'Cash On Counter' }] }
+    );
+
+    res.status(200).json({ message: "Payment marked as paid" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update payment status" });
+  }
+});
+
 
 
 // Connection
 connectDB()
-
 
 app.listen(port, () => console.log("Server Started at PORT", port));

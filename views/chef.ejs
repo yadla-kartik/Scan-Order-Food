@@ -9,117 +9,13 @@
     body {
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh; 
       font-family: 'Poppins', sans-serif;
       background-color: #f9f9f9;
     }
+     body::-webkit-scrollbar {
+    display: none;
+  }
 
-    .container {
-      text-align: center;
-      padding: 10px;
-      width: 100%; 
-    }
-
-    .logo img {
-      display: block;
-      margin: 0 auto 20px;
-      max-width: 100%;
-      height: auto;
-    }
-
-    
-    .card-body {
-      padding: 15px;
-    }
-    
-    .card {
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background: #f9f9f9;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin: 10px auto;
-      width: 90%;
-      max-width: 25rem;
-      padding: 10px;
-      
-    }
-        .card h5 {
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-            color: #007bff;
-            font-weight: 500;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            overflow-x: auto;
-        }
-
-        .table th,
-        .table td {
-            border: 1px solid #ddd;
-            text-align: center;
-            padding: 8px;
-            font-size: 0.9rem;
-            font-weight: 400;
-        }
-
-        .table th {
-            background-color: #f1f1f1;
-            font-weight: 600;
-        }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #333;
-    }
-
-
-    button {
-            margin-top: 10px;
-            padding: 8px 16px;
-            background-color: #28a745;
-            border: none;
-            color: white;
-            cursor: pointer;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-
-
-    button:hover {
-            background-color: #218838;
-        }
-
-    @media (max-width: 768px) {
-      table {
-        display: block;
-        overflow-x: auto; 
-      }
-
-      th, td {
-        white-space: nowrap; 
-      }
-
-      .card-title {
-        font-size: 1rem; 
-      }
-      .card h5 {
-                font-size: 1rem;
-            }
-
-            .table th,
-            .table td {
-                font-size: 0.8rem;
-            }
-    }
 .navbar {
     background-color: #D8222F;
     padding: 10px 15px;
@@ -139,6 +35,63 @@
     font-size: 23px;
 }
 
+.container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.card{
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    border: 1px solid #ebdede;
+    border-radius: 10px;
+    text-align: left;
+    padding: 15px;
+    box-shadow: #d8222e34 0px 2px 8px 0px;
+}
+
+
+table {
+    width: 100%;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: #b1b1b1 1px solid;
+    text-align: left;
+}
+
+table th {
+    border-bottom: #b1b1b1 1px solid;
+}
+
+.prepared{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .done{
+    border: none;
+    border-radius: 25px;
+    background-color: #D8222F;
+    color: white;
+    text-align: center;
+    width: max-content;
+    padding: 10px 20px;
+    margin-top: 7px;
+  }
+
   </style>
 </head>
 <body>
@@ -146,51 +99,77 @@
     <img src="/Images/logo.png" alt="Scan N Order Logo" class="logo" width="70px">
     <span class="nav-title">SCAN N ORDER</span>
   </nav>
-  <div class="container">
-    <% users.forEach(user => { %>
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Customer: <%= user.fullname %></h5>
+  <h3 style="text-align: left; margin-left: 15px; margin-top: 15px; font-weight: 600; font-size: 27px;">Chef Dashboard</h3>
+
+<div class="container">
+  <% users.forEach((user,index) => { %>
+    <div class="card" id="user-<%= user._id %>">
+      <div class="card-head">
+        <p style="font-weight: 500;">Order No: <span style="font-weight: 300;"><%= 100 +  index %></span></p>
+        <p style="font-weight: 500;">Customer Name: <span style="font-weight: 300;"><%= user.fullname %></span></p>
+      </div>
+      <div class="card-body">
+        <% let userOrders = chefOrders.filter(order => String(order.createdBy) === String(user._id)); %>
+        <% if (userOrders.length > 0) { %>
           <table class="table">
             <thead>
               <tr>
                 <th>Item Name</th>
                 <th>Qty</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              <% let userOrders = chefOrders.filter(order => String(order.createdBy) === String(user._id)); %>
-              <% if (userOrders.length > 0) { %>
-                <% userOrders.forEach(order => { %>
-                  <tr>
-                    <td><%= order.name %></td>
-                    <td><%= order.quantity %></td>
-                    <td>
-                      <form method="POST" action="/markAsDone">
-                        <input type="hidden" name="itemId" value="<%= order._id %>">
-                        <button type="submit" class="done-btn btn btn-success">Done</button>
-                      </form>
-                    </td>
-                  </tr>
-                <% }) %>
-              <% } else { %>
+              <% userOrders.forEach(order => { %>
                 <tr>
-                  <td colspan="3">No orders found</td>
+                  <td><%= order.name %></td>
+                  <td><%= order.quantity %></td>
                 </tr>
-              <% } %>
+              <% }) %>
             </tbody>
           </table>
-        </div>
-      </div>
-    <% }) %>
-  </div>
 
-  <script>
-    setInterval(() => {
-      location.reload(); 
-    }, 5000);
-  </script>
+          <div class="prepared">
+            <button 
+              class="done" 
+              onclick="markAsDone('<%= user._id %>')" 
+              id="btn-<%= user._id %>"
+            >Completed</button>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<script>
+  async function markAsDone(userId) {
+    try {
+      const response = await fetch('/markAsDone', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userId })
+      });
+      if (response.ok) {
+        // Disable the button and update text
+        const btn = document.getElementById(`btn-${userId}`);
+        btn.disabled = true;
+        btn.innerText = "Completed";
+
+        // Optional: remove card from DOM
+        document.getElementById(`user-${userId}`).remove();
+      } else {
+        alert('Error updating status.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Request failed.');
+    }
+  }
+</script>
+
+
   <%- include('./partials/script.ejs') %>
 </body>
 </html>

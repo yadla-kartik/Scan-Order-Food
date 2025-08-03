@@ -33,14 +33,9 @@ const food_schema = new mongoose.Schema({
             type: String,
             default: 'Pending'
         },
-        coupon:{
+        payed:{
             type: String,
-            default: null,
-        },
-        discountedPrice:{
-            type: String,
-            default: null,
-        },
+        }
     }]
 },{timestamps: true})
 

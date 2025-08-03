@@ -1,179 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <%- include('./partials/head.ejs') %>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin</title>
-</head>
-
-<style>
-    /* D8222F */
-    
- @import url('https://fonts.googleapis.com/css2?family=Wittgenstein:ital,wght@0,400..900;1,400..900&display=swap');
- @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-* {
+    <style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-}
+  }
+   body::-webkit-scrollbar {
+    display: none;
+  }
 
 body {
-    background-color: #D8222F;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-p{
-    margin-bottom: 0;
-}
-
-.container {
+    background-color: #f5f5f5;
     text-align: center;
+}
+
+.navbar {
     background-color: #D8222F;
-    padding: 20px;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 350px;
-}
-.logo img {
-    width: 130px;
-}
-
-h1 {
+    padding: 10px 15px;
     color: white;
-    font-size: 24px;
-    margin-top: 10px;
-}
-
-.subtitle {
-    color: white;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-.input-container {
     display: flex;
     align-items: center;
-    background: white;
-    padding: 10px;
-    border-radius: 25px;
-    margin-bottom: 15px;
-    border: 2px solid white;
+    justify-content: left;
 }
 
-.input-container i {
-    color: #d71f27;
-    font-size: 16px;
-    padding: 0 10px;
-}
-
-.separator {
-    width: 2px;
-    height: 20px;
-    background-color: #D8222F;
+.logo {
+    width: 60px;
+    height: auto; 
     margin-right: 10px;
 }
 
-.input-container input {
-    border: none;
-    outline: none;
-    flex: 1;
+.nav-title {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.orders{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 0;
+}
+
+.card{
+    width: 90%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    border: 1px solid #ebdede;
+    border-radius: 10px;
+    text-align: left;
+    padding: 15px;
+    box-shadow: #d8222e34 0px 2px 8px 0px;
+}
+
+
+
+    .price {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 0 10px 0 10px;
+  }
+  .item-p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .item-p p,
+  .item-p a {
+    margin-bottom: 3px;
     font-size: 14px;
-    background: transparent;
-    color: #D8222F;
-}
-
-::placeholder {
-  color: #D8222F;
-}
-
-button {
-    background-color: white;
-    width: 100px;
-    height: auto;
-    color: #D8222F;
-    border: none;
-    border-radius: 15px;
+  }
+  .you-pay {
+    display: flex;
+    justify-content: space-between;
+  }
+  .you-pay p {
     font-size: 16px;
     font-weight: 500;
-    cursor: pointer;
-}
+    margin-top: 5px;
+    margin-bottom: 3px;
+  }
 
-button:hover {
-    background-color: #fff;
-    color: #D8222F;
-}
-
-.footer {
-    color: white;
-    font-size: 18px;
-    margin-top: 20px;
-}
-
-.tagline {
-    color: white;
-    font-size: 12px;
-}
-
-.new-user{
+  .done{
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    gap: 5px;
-    color: #fff;
-    padding: 10px;
-}
+  }
+  #done{
+    border: none;
+    border-radius: 25px;
+    background-color: #D8222F;
+    color: white;
+    text-align: center;
+    width: max-content;
+    padding: 10px 20px;
+    margin-top: 7px;
+  }
 
-.new-user a{
-    color: #fff;
-}
-
-footer{
-    position: relative;
-    top: 100px;
-}
-
-</style>
+    </style>
+</head>
 <body>
-  <div class="container">
-    <div class="logo">
-      <img src="/Images/logo.png" alt="QR Logo">
-  </div>
-    <h1 style="font-family: Wittgenstein;">Welcome</h1>
-    <p class="subtitle">SignIn to Continue</p>
-
-    <form action="/admin" method="post">
-        <div class="input-container">
-            <i class="fas fa-user"></i>
-            <span class="separator"></span>
-            <input type="email" name="email" placeholder="Email" required>
+ <nav class="navbar">
+    <img src="/Images/logo.png" alt="Scan N Order Logo" class="logo">
+    <span class="nav-title">SCAN N ORDER</span>
+  </nav>
+  <h3 style="text-align: left; margin-left: 15px; margin-top: 15px; font-weight: 600; font-size: 27px;">Admin Dashboard</h3>
+   <% user.forEach((user, index) => { %>
+    <div class="orders">
+        <div class="card">
+            <div class="card-head">
+                <% let userOrders = chefOrders.filter(order => String(order.createdBy) === String(user._id) && order.status === "Pending"); %>
+     <% let totalPrice = 0; %> <% let gst = 0; %> <% let paymentStat = " "; %> <% let payeMode = " ";  %> <% let serviceTip = 0; %>
+                <% userOrders.forEach(item => { 
+         totalPrice +=Number(item.price) * Number(item.quantity);
+         paymentStat = item.paymentStatus;
+         payeMode = item.payed;
+          %> 
+                <% }) %>
+                <% gst = totalPrice * 0.18; %> <% serviceTip = totalPrice *
+        0.10; %>
+                <p style="font-weight: 500;">Order No: <span style="font-weight: 300;"><%= 100 + index %></span></p>
+                <p style="font-weight: 500;">Payment Status: <span style="font-weight: 300;"><%= paymentStat %></span></p>
+                <p style="font-weight: 500;">Payment Mode: <span style="font-weight: 300;"><%= payeMode %></span></p>
+            <p style="font-weight: 500;">Customer Name: <span style="font-weight: 300;"><%= user.fullname %></span></p>
+            <p style="font-weight: 500;">Phone No: <span style="font-weight: 300;"><%= user.mobileNo %></span></p>
         </div>
+        <div class="card-body">
+                <div class="price">
+      <div class="item-p">
+        <p style="font-weight: 500">Total</p>
+        <p style="font-weight: 500">₹ <%= totalPrice.toFixed(2) %></p>
+      </div>
+      <div class="item-p">
+        <p>GST (18%)</p>
+        <p id="tax">₹ <%= gst.toFixed(2) %></p>
+      </div>
 
-        <div class="input-container">
-            <i class="fa-solid fa-lock"></i>
-            <span class="separator"></span>
-            <input type="password" name="password" placeholder="Password" required>
-        </div>
-
-        <button type="submit">SUBMIT</button>
-    </form>
-    <div class="new-user">
-            <p>New user ?</p>
-            <a href="/Signup">Register</a>
+      <div class="item-p">
+        <p>Service Tip (10%)</p>
+        <p id="tax">₹ <%= serviceTip.toFixed(2) %></p>
+      </div>
+      <hr>
+      <div class="you-pay">
+        <p>Total Amount</p>
+        <p>₹ <%= (totalPrice + gst + serviceTip).toFixed(2) %></p>
+      </div>
     </div>
-<footer>
-    <h2 class="footer">SCAN N ORDER</h2>
-    <p class="tagline">JUST ORDER YOUR FOOD IN ONE SCAN</p>
-</footer>
-</div>
+  </div>
+  <div class="done">
+    <button id="done" onclick="markOrderDone('<%= user._id %>', event)">Done & Served</button>
+    <% if (payeMode == "Cash On Counter" && paymentStat === "❌ Not Paid") { %>
+      <button id="done" onclick="markAsPaid('<%= user._id %>', event)">Mark as Paid</button>
+      <% } %>
+      </div>
 
-    <%- include('./partials/script.ejs') %>
+            </div>
+        </div>
+        </div>
+            <% }); %>
+            
+    <script>
+  async function markOrderDone(userId, event) {
+  try {
+    const res = await fetch('/mark-done', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    });
+
+    if (res.ok) {
+      const card = event.target.closest('.orders');
+      if (card) card.remove();
+    } else {
+      alert('Failed to mark order as done.');
+    }
+  } catch (err) {
+    console.error('Error:', err);
+  }
+}
+
+async function markAsPaid(userId, event) {
+  try {
+    const res = await fetch('/mark-paid', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId })
+    });
+
+    if (res.ok) {
+      const btn = event.target;
+      btn.disabled = true;
+      btn.innerText = "Payment Confirmed";
+
+      const card = btn.closest('.card');
+      if (card) {
+        const statusSpan = card.querySelector('p:nth-child(2) span');
+        if (statusSpan) statusSpan.innerText = "✅ Paid";
+      }
+    } else {
+      alert('Failed to mark as paid.');
+    }
+  } catch (err) {
+    console.error('Error:', err);
+  }
+}
+
+</script>
 
 
-
-      <script src="https://kit.fontawesome.com/04b7df36b9.js" crossorigin="anonymous"></script>
 </body>
 </html>

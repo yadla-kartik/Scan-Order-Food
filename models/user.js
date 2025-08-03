@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    fullname: {
+    fullname:{
         type: String,
         required: true,
     },
@@ -9,6 +9,10 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true,
         unique: true,
+    },
+    isOrderDone:{
+        type: Boolean,
+        default: false,
     },
 })
 
