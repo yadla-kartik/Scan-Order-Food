@@ -134,7 +134,18 @@ button:hover {
         <div class="input-container">
             <i class="fas fa-phone"></i>
             <span class="separator"></span>
-            <input type="tel" name="mobileNo" placeholder="Mobile no." required>
+          <input 
+  type="text"
+  name="mobileNo"
+  placeholder="Mobile no."
+  maxlength="10"
+  pattern="[6-9][0-9]{9}"
+  title="Enter 10-digit mobile number starting with 6, 7, 8, or 9"
+  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+  required
+>
+red
+>
         </div>
 
         <button type="submit">SUBMIT</button>
@@ -146,4 +157,20 @@ button:hover {
       <%- include('./partials/script.ejs') %>
       <script src="https://kit.fontawesome.com/04b7df36b9.js" crossorigin="anonymous"></script>
 </body>
+<script>
+  const form = document.querySelector("form");
+  const mobileInput = document.querySelector("input[name='mobileNo']");
+
+  form.addEventListener("submit", function (e) {
+    const mobile = mobileInput.value;
+    const regex = /^[6-9]\d{9}$/;
+
+    if (!regex.test(mobile)) {
+      e.preventDefault();
+      alert("Mobile number must be 10 digits and start with 6, 7, 8, or 9");
+      mobileInput.focus();
+    }
+  });
+</script>
+
 </html>
