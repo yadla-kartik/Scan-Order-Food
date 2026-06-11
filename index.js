@@ -18,7 +18,6 @@ mongoose.set("strictQuery", true);
 const compression = require('compression');
 const app = express();
 const port = process.env.PORT || 8000;
-const host = "0.0.0.0";
 const cors = require("cors");
 app.use(cors());
 
@@ -196,4 +195,4 @@ app.post('/mark-paid', async (req, res) => {
 // Connection
 connectDB()
 
-app.listen(port, host, () => console.log(`Server Started at http://${host}:${port}`));
+app.listen(port, () => console.log("Server Started at PORT", port));
