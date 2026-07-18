@@ -4,6 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "start:backend": "node backend/server.js",
+    "dev:backend": "nodemon backend/server.js",
     "dev": "nodemon index.js & browser-sync start",
     "build:css": "tailwindcss -i ./public/css/input.css -o ./public/css/style.css --watch"
   },
